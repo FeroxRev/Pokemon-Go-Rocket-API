@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -38,7 +39,7 @@ namespace PokemonGo.RocketAPI.Login
                 new KeyValuePair<string, string>("client_id", ClientId),
                 new KeyValuePair<string, string>("scope", "openid email https://www.googleapis.com/auth/userinfo.email"));
 
-            Debug.WriteLine($"Please visit {deviceCode.VerificationUrl} and enter {deviceCode.UserCode}");
+            Debug.WriteLine($"Please visit {deviceCode.verification_url} and enter {deviceCode.user_code}");
             return deviceCode;
         }
 
