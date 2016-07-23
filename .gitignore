@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/PokemonGo.RocketAPI/bin/Debug
+/PokemonGo.RocketAPI/obj/Debug
+/PokemonGo.RocketAPI/packages
+/PokemonGo.RocketAPI/Proto/google/protobuf
