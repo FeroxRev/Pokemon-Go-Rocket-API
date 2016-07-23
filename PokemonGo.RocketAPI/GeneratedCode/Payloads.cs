@@ -8346,8 +8346,12 @@ namespace PokemonGo.RocketAPI.GeneratedCode {
         output.WriteInt32(FromFort);
       }
     }
+        public double CalculateIV()
+        {
+            return ((double)(IndividualAttack + IndividualDefense + IndividualStamina) / (3.0f * 15.0f)) * 100.0f;
+        }
 
-    public int CalculateSize() {
+        public int CalculateSize() {
       int size = 0;
       if (Id != 0UL) {
         size += 1 + 8;
