@@ -6,3 +6,4 @@
 /PokemonGo.RocketAPI/obj/Debug
 /PokemonGo.RocketAPI/packages
 /PokemonGo.RocketAPI/Proto/google/protobuf
+*.sln
