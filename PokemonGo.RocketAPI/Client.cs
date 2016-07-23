@@ -43,7 +43,8 @@ namespace PokemonGo.RocketAPI
             _httpClient.DefaultRequestHeaders.ExpectContinue = false;
             _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Connection", "keep-alive");
             _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "*/*");
-            _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type","application/x-www-form-urlencoded");
+            _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type",
+                "application/x-www-form-urlencoded");
         }
 
         private void SetCoordinates(double lat, double lng, double altitude)
@@ -61,15 +62,15 @@ namespace PokemonGo.RocketAPI
             if (Settings.GoogleRefreshToken != string.Empty)
             {
                 tokenResponse = await GoogleLogin.GetAccessToken(Settings.GoogleRefreshToken);
-                AccessToken = tokenResponse?.IdToken;
+                AccessToken = tokenResponse?.id_token;
             }
             
             if (AccessToken == null)
             {
                 var deviceCode = await GoogleLogin.GetDeviceCode();
                 tokenResponse = await GoogleLogin.GetAccessToken(deviceCode);
-                Settings.GoogleRefreshToken = tokenResponse?.RefreshToken;
-                AccessToken = tokenResponse?.IdToken;
+                Settings.GoogleRefreshToken = tokenResponse?.refresh_token;
+                AccessToken = tokenResponse?.id_token;
             }
             
         }

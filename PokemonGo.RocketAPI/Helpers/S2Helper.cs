@@ -41,5 +41,6 @@ namespace PokemonGo.RocketAPI.Helpers
 
             return GetNext(cellId.Next, depth);
         }
+
     }
 }

@@ -1,5 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Helpers;
 
 namespace PokemonGo.RocketAPI.Login
@@ -18,8 +26,8 @@ namespace PokemonGo.RocketAPI.Login
             do
             {
                 await Task.Delay(2000);
-                tokenResponse = await PollSubmittedToken(deviceCode.DeviceCode);
-            } while (tokenResponse.AccessToken == null || tokenResponse.RefreshToken == null);
+                tokenResponse = await PollSubmittedToken(deviceCode.device_code);
+            } while (tokenResponse.access_token == null || tokenResponse.refresh_token == null);
 
             return tokenResponse;
         }
@@ -30,7 +38,7 @@ namespace PokemonGo.RocketAPI.Login
                 new KeyValuePair<string, string>("client_id", ClientId),
                 new KeyValuePair<string, string>("scope", "openid email https://www.googleapis.com/auth/userinfo.email"));
 
-            Logger.Write($"Please visit {deviceCode.VerificationUrl} and enter {deviceCode.UserCode}", LogLevel.None);
+            Logger.Write($"Please visit {deviceCode.verification_url} and enter {deviceCode.user_code}", LogLevel.None);
             return deviceCode;
         }
 
@@ -58,27 +66,27 @@ namespace PokemonGo.RocketAPI.Login
 
         internal class ErrorResponseModel
         {
-            public string Error { get; set; }
-            public string ErrorDescription { get; set; }
+            public string error { get; set; }
+            public string error_description { get; set; }
         }
 
         public class TokenResponseModel
         {
-            public string AccessToken { get; set; }
-            public string TokenType { get; set; }
-            public int ExpiresIn { get; set; }
-            public string RefreshToken { get; set; }
-            public string IdToken { get; set; }
+            public string access_token { get; set; }
+            public string token_type { get; set; }
+            public int expires_in { get; set; }
+            public string refresh_token { get; set; }
+            public string id_token { get; set; }
         }
 
 
         public class DeviceCodeModel
         {
-            public string VerificationUrl { get; set; }
-            public int ExpiresIn { get; set; }
-            public int Interval { get; set; }
-            public string DeviceCode { get; set; }
-            public string UserCode { get; set; }
+            public string verification_url { get; set; }
+            public int expires_in { get; set; }
+            public int interval { get; set; }
+            public string device_code { get; set; }
+            public string user_code { get; set; }
         }
 
     }

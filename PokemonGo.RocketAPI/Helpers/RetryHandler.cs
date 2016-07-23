@@ -1,13 +1,16 @@
+using PokemonGo.RocketAPI.Logging;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace PokemonGo.RocketAPI.Helpers
 {
-    class RetryHandler : 
-        DelegatingHandler
+    class RetryHandler : DelegatingHandler
     {
         private const int MaxRetries = 25;
 
