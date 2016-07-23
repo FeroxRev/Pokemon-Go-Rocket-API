@@ -275,14 +275,23 @@ namespace PokemonGo.RocketAPI
             double pokemonLng, MiscEnums.Item pokeball)
         {
 
-            var customRequest = new Request.Types.CatchPokemonRequest()
+            Random rand = new Random();
+            //0 = miss, 1 = hit
+            int hitPokemon = rand.Next(0, 1);
+            // x < 1 = nothing, 
+            // 1 < x < 1.5 = nice throw
+            // 1.5 < x < 1.9 = great throw
+            // 1.9 < x < 2.0 = perfect throw
+            double throwAccuracy = rand.NextDouble() * (2 - 0.9) + 0.9;
+            int spinModefier = rand.Next(0, 1);
+            var customRequest = new Request.Types.CatchPokemonRequest
             {
                 EncounterId = encounterId,
                 Pokeball = (int)pokeball,
                 SpawnPointGuid = spawnPointGuid,
                 HitPokemon = 1,
-                NormalizedReticleSize = Utils.FloatAsUlong(1.950),
-                SpinModifier = Utils.FloatAsUlong(1),
+                NormalizedReticleSize = Utils.FloatAsUlong(throwAccuracy),
+                SpinModifier = Utils.FloatAsUlong(spinModefier),
                 NormalizedHitPosition = Utils.FloatAsUlong(1)
             };
 
