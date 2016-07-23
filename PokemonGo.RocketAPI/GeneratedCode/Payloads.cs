@@ -73,7 +73,7 @@ namespace PokemonGo.RocketAPI.GeneratedCode {
             "CgJjcBgDIAEoBRIPCgdzdGFtaW5hGAQgASgFEhMKC3N0YW1pbmFfbWF4GAUg",
             "ASgFEiQKBm1vdmVfMRgGIAEoDjIULkFsbEVudW0uUG9rZW1vbk1vdmUSJAoG",
             "bW92ZV8yGAcgASgOMhQuQWxsRW51bS5Qb2tlbW9uTW92ZRIYChBkZXBsb3ll",
-            "ZF9mb3J0X2lkGAggASgFEhIKCm93bmVyX25hbWUYCSABKAkSDgoGaXNfZWdn",
+            "ZF9mb3J0X2lkGAggASgGEhIKCm93bmVyX25hbWUYCSABKAkSDgoGaXNfZWdn",
             "GAogASgIEhwKFGVnZ19rbV93YWxrZWRfdGFyZ2V0GAsgASgFEhsKE2VnZ19r",
             "bV93YWxrZWRfc3RhcnQYDCABKAUSDgoGb3JpZ2luGA4gASgFEhAKCGhlaWdo",
             "dF9tGA8gASgCEhEKCXdlaWdodF9rZxgQIAEoAhIZChFpbmRpdmlkdWFsX2F0",
@@ -2773,8 +2773,8 @@ namespace PokemonGo.RocketAPI.GeneratedCode {
 
     /// <summary>Field number for the "deployed_fort_id" field.</summary>
     public const int DeployedFortIdFieldNumber = 8;
-    private int deployedFortId_;
-    public int DeployedFortId {
+    private ulong deployedFortId_;
+    public ulong DeployedFortId {
       get { return deployedFortId_; }
       set {
         deployedFortId_ = value;
@@ -3054,7 +3054,7 @@ namespace PokemonGo.RocketAPI.GeneratedCode {
       if (StaminaMax != 0) hash ^= StaminaMax.GetHashCode();
       if (Move1 != 0) hash ^= Move1.GetHashCode();
       if (Move2 != 0) hash ^= Move2.GetHashCode();
-      if (DeployedFortId != 0) hash ^= DeployedFortId.GetHashCode();
+      if (DeployedFortId != 0UL) hash ^= DeployedFortId.GetHashCode();
       if (OwnerName.Length != 0) hash ^= OwnerName.GetHashCode();
       if (IsEgg != false) hash ^= IsEgg.GetHashCode();
       if (EggKmWalkedTarget != 0) hash ^= EggKmWalkedTarget.GetHashCode();
@@ -3113,9 +3113,9 @@ namespace PokemonGo.RocketAPI.GeneratedCode {
         output.WriteRawTag(56);
         output.WriteEnum((int) Move2);
       }
-      if (DeployedFortId != 0) {
-        output.WriteRawTag(64);
-        output.WriteInt32(DeployedFortId);
+      if (DeployedFortId != 0UL) {
+        output.WriteRawTag(65);
+        output.WriteFixed64(DeployedFortId);
       }
       if (OwnerName.Length != 0) {
         output.WriteRawTag(74);
@@ -3230,8 +3230,8 @@ namespace PokemonGo.RocketAPI.GeneratedCode {
       if (Move2 != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Move2);
       }
-      if (DeployedFortId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(DeployedFortId);
+      if (DeployedFortId != 0UL) {
+        size += 1 + 8;
       }
       if (OwnerName.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(OwnerName);
@@ -3327,7 +3327,7 @@ namespace PokemonGo.RocketAPI.GeneratedCode {
       if (other.Move2 != 0) {
         Move2 = other.Move2;
       }
-      if (other.DeployedFortId != 0) {
+      if (other.DeployedFortId != 0UL) {
         DeployedFortId = other.DeployedFortId;
       }
       if (other.OwnerName.Length != 0) {
@@ -3433,8 +3433,8 @@ namespace PokemonGo.RocketAPI.GeneratedCode {
             move2_ = (global::AllEnum.PokemonMove) input.ReadEnum();
             break;
           }
-          case 64: {
-            DeployedFortId = input.ReadInt32();
+          case 65: {
+            DeployedFortId = input.ReadFixed64();
             break;
           }
           case 74: {

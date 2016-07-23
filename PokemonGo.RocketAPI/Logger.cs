@@ -8,7 +8,7 @@ namespace PokemonGo.RocketAPI
 	/// </summary>
 	public static class Logger
 	{
-		private static ILogger logger;
+		private static ILogger _logger;
 
 		/// <summary>
 		/// Set the logger. All future requests to <see cref="Write(string, LogLevel)"/> will use that logger, any old will be unset.
@@ -16,7 +16,7 @@ namespace PokemonGo.RocketAPI
 		/// <param name="logger"></param>
 		public static void SetLogger(ILogger logger)
 		{
-			Logger.logger = logger;
+			Logger._logger = logger;
 		}
 
 		/// <summary>
@@ -26,9 +26,9 @@ namespace PokemonGo.RocketAPI
 		/// <param name="level">Optional level to log. Default <see cref="LogLevel.Info"/>.</param>
 		public static void Write(string message, LogLevel level = LogLevel.Info)
 		{
-			if (logger == null)
+			if (_logger == null)
 				return;
-			logger.Write(message, level);
+			_logger.Write(message, level);
 		}
 	}
 

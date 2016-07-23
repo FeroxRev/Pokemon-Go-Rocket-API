@@ -1,6 +1,4 @@
 ﻿using PokemonGo.RocketAPI.Enums;
-using PokemonGo.RocketAPI.GeneratedCode;
-using System.Collections.Generic;
 
 namespace PokemonGo.RocketAPI
 {
