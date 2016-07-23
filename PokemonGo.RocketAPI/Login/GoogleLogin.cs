@@ -38,7 +38,7 @@ namespace PokemonGo.RocketAPI.Login
                 new KeyValuePair<string, string>("client_id", ClientId),
                 new KeyValuePair<string, string>("scope", "openid email https://www.googleapis.com/auth/userinfo.email"));
 
-            Logger.Write($"Please visit {deviceCode.verification_url} and enter {deviceCode.user_code}", LogLevel.None);
+            Debug.WriteLine($"Please visit {deviceCode.VerificationUrl} and enter {deviceCode.UserCode}");
             return deviceCode;
         }
 
@@ -63,7 +63,6 @@ namespace PokemonGo.RocketAPI.Login
                 new KeyValuePair<string, string>("scope", "openid email https://www.googleapis.com/auth/userinfo.email"));
         }
 
-
         internal class ErrorResponseModel
         {
             public string error { get; set; }
@@ -79,7 +78,6 @@ namespace PokemonGo.RocketAPI.Login
             public string id_token { get; set; }
         }
 
-
         public class DeviceCodeModel
         {
             public string verification_url { get; set; }
@@ -88,6 +86,5 @@ namespace PokemonGo.RocketAPI.Login
             public string device_code { get; set; }
             public string user_code { get; set; }
         }
-
     }
 }
