@@ -2,7 +2,7 @@
 
 Interface to Pokémon Go Client
 
-**Read previous issues before opening a new one! Maybe your issue is already answered.
+**Read previous issues before opening a new one! Maybe your issue is already answered. Questions will be removed.
 
 ----------
 ### Usage Example
