@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -37,8 +38,6 @@ namespace PokemonGo.RocketAPI.Login
             var deviceCode = await HttpClientHelper.PostFormEncodedAsync<DeviceCodeModel>(OauthEndpoint,
                 new KeyValuePair<string, string>("client_id", ClientId),
                 new KeyValuePair<string, string>("scope", "openid email https://www.googleapis.com/auth/userinfo.email"));
-
-            Debug.WriteLine($"Please visit {deviceCode.VerificationUrl} and enter {deviceCode.UserCode}");
             return deviceCode;
         }
 
