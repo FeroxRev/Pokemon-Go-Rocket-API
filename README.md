@@ -4,6 +4,8 @@ Interface to Pokémon Go Client
 
 **Read previous issues before opening a new one! Maybe your issue is already answered. Questions will be removed.
 
+Donate some bitcoin beers via: 1KRBmNN8y9hwaXGR7rCoJWmzJHfBp2ybRb
+
 ----------
 ### Usage Example
 
@@ -14,6 +16,8 @@ await _client.SetServer();
 var profile = await _client.GetProfile();
 var settings = await _client.GetSettings();
 var mapObjects = await _client.GetMapObjects();
+
+You can also visit Pokestops, encounter Pokemon, catch Pokemon, drop items, use items etc
 ```
 
 ----------
@@ -29,4 +33,4 @@ This Project is licensed as GNU (GNU GENERAL PUBLIC LICENSE v3)
 
 ## Legal
 
-This code is in no way affiliated with, authorized, maintained, sponsored or endorsed by Niantic, The Pokémon Company, Nintendo or any of its affiliates or subsidiaries. This is an independent and unofficial API. Use at your own risk.
+This code is in no way affiliated with, authorized, maintained, sponsored or endorsed by Niantic, The Pokémon Company, Nintendo or any of its affiliates or subsidiaries. This is an independent and unofficial API for educational use ONLY. Use at your own risk.
