@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using PokemonGo.RocketAPI.Exceptions;
@@ -15,7 +12,7 @@ namespace PokemonGo.RocketAPI.Login
     {
         public static async Task<string> GetAccessToken(string username, string password)
         {
-            var handler = new HttpClientHandler()
+            var handler = new HttpClientHandler
             {
                 AutomaticDecompression = DecompressionMethods.GZip,
                 AllowAutoRedirect = false
@@ -41,7 +38,7 @@ namespace PokemonGo.RocketAPI.Login
                             new KeyValuePair<string, string>("execution", executionId),
                             new KeyValuePair<string, string>("_eventId", "submit"),
                             new KeyValuePair<string, string>("username", username),
-                            new KeyValuePair<string, string>("password", password),
+                            new KeyValuePair<string, string>("password", password)
                         }));
 
                 if (loginResp.Headers.Location == null)
@@ -67,7 +64,7 @@ namespace PokemonGo.RocketAPI.Login
                             new KeyValuePair<string, string>("client_secret",
                                 "w8ScCUXJQc6kXKw8FiOhd8Fixzht18Dq3PEVkUCP5ZPxtgyWsbTvWHFLm2wNY0JR"),
                             new KeyValuePair<string, string>("grant_type", "refresh_token"),
-                            new KeyValuePair<string, string>("code", ticketId),
+                            new KeyValuePair<string, string>("code", ticketId)
                         }));
 
                 var tokenData = await tokenResp.Content.ReadAsStringAsync();
