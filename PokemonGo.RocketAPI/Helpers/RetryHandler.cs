@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -9,26 +7,27 @@ using System.Threading.Tasks;
 
 namespace PokemonGo.RocketAPI.Helpers
 {
-    class RetryHandler : DelegatingHandler
+    internal class RetryHandler : DelegatingHandler
     {
         private const int MaxRetries = 25;
 
         public RetryHandler(HttpMessageHandler innerHandler)
             : base(innerHandler)
-        { }
+        {
+        }
 
         protected override async Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
-            for (int i = 0; i <= MaxRetries; i++)
+            for (var i = 0; i <= MaxRetries; i++)
             {
                 try
                 {
                     var response = await base.SendAsync(request, cancellationToken);
                     if (response.StatusCode == HttpStatusCode.BadGateway)
                         throw new Exception(); //todo: proper implementation
-                    
+
                     return response;
                 }
                 catch (Exception ex)
