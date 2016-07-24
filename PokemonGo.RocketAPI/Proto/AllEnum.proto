@@ -416,7 +416,7 @@ enum PokemonId {
   BULBASAUR = 1;
   IVYSAUR = 2;
   VENUSAUR = 3;
-  CHARMENDER = 4;
+  CHARMANDER = 4;
   CHARMELEON = 5;
   CHARIZARD = 6;
   SQUIRTLE = 7;
