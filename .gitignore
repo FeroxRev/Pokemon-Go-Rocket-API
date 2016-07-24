@@ -7,3 +7,4 @@
 /PokemonGo.RocketAPI/packages
 /PokemonGo.RocketAPI/Proto/google/protobuf
 *.sln
+*.suo
