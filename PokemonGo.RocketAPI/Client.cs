@@ -10,6 +10,9 @@ using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Extensions;
 using PokemonGo.RocketAPI.Login;
 using static PokemonGo.RocketAPI.GeneratedCode.Response.Types;
+using System.Diagnostics;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace PokemonGo.RocketAPI
 {
@@ -54,25 +57,44 @@ namespace PokemonGo.RocketAPI
             CurrentAltitude = altitude;
         }
 
+        public string googleRefreshToken = string.Empty;
+
         public async Task DoGoogleLogin()
         {
-            _authType = AuthType.Google;
+            SetAuthType(AuthType.Google);
 
-            GoogleLogin.TokenResponseModel tokenResponse = null;
-            if (Settings.GoogleRefreshToken != string.Empty)
+            GoogleLogin.TokenResponseModel tokenResponse;
+            if (googleRefreshToken != string.Empty)
             {
-                tokenResponse = await GoogleLogin.GetAccessToken(Settings.GoogleRefreshToken);
+                tokenResponse = await GoogleLogin.GetAccessToken(googleRefreshToken);
                 AccessToken = tokenResponse?.id_token;
             }
-            
+
             if (AccessToken == null)
             {
                 var deviceCode = await GoogleLogin.GetDeviceCode();
+
+                Console.WriteLine($"Please visit {deviceCode.verification_url} and enter {deviceCode.user_code}");
+                Console.WriteLine("( Website should open and the Code should be in your Clipboard, just paste it)");
+                try
+                {
+                    Process.Start(@"http://www.google.com/device");
+                    Thread thread = new Thread(() => Clipboard.SetDataObject(deviceCode.user_code, false, 5, 200)); //Copy device code
+                    thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
+                    thread.Start();
+                    thread.Join();
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Couldnt copy to clipboard, do it manually");
+                    Console.WriteLine($"Goto: {deviceCode.verification_url} & enter {deviceCode.user_code}");
+                }
+
                 tokenResponse = await GoogleLogin.GetAccessToken(deviceCode);
-                Settings.GoogleRefreshToken = tokenResponse?.refresh_token;
+                googleRefreshToken = tokenResponse?.refresh_token;
                 AccessToken = tokenResponse?.id_token;
             }
-            
+
         }
 
         /// <summary>
