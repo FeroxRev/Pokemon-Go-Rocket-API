@@ -462,5 +462,25 @@ namespace PokemonGo.RocketAPI
                     _httpClient.PostProtoPayload<Request, RecycleInventoryItemResponse>($"https://{_apiUrl}/rpc",
                         request);
         }
+
+        public async Task<UseItemXpBoostResponse> UseItemXpBoost()
+        {
+            var message = new UseItemXpBoostMessage()
+            {
+                ItemId = ItemId.ItemLuckyEgg
+            };
+
+            var request = RequestBuilder.GetRequestEnvelope(AuthToken, _authType, CurrentLatitude, CurrentLongitude, CurrentAltitude, _authTicket,
+                new Request
+                {
+                    RequestType = RequestType.UseItemXpBoost,
+                    RequestMessage = message.ToByteString()
+                });
+            
+            return await _httpClient.PostProtoPayload<Request, UseItemXpBoostResponse>($"https://{_apiUrl}/rpc", 
+                        request);
+
+
+        }
     }
 }
