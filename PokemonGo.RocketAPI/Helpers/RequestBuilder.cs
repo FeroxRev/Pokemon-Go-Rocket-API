@@ -5,10 +5,26 @@ using static POGOProtos.Networking.Envelopes.RequestEnvelope.Types;
 
 namespace PokemonGo.RocketAPI.Helpers
 {
-    public static class RequestBuilder
+    public class RequestBuilder
     {
-        public static RequestEnvelope GetRequestEnvelope(string authToken, AuthType authType, double latitude,
-            double longitude, double altitude, AuthTicket authTicket = null, params Request[] customRequests)
+        private readonly string _authToken;
+        private readonly AuthType _authType;
+        private readonly double _latitude;
+        private readonly double _longitude;
+        private readonly double _altitude;
+        private readonly AuthTicket _authTicket;
+
+        public RequestBuilder(string authToken, AuthType authType, double latitude, double longitude, double altitude, AuthTicket authTicket = null)
+        {
+            _authToken = authToken;
+            _authType = authType;
+            _latitude = latitude;
+            _longitude = longitude;
+            _altitude = altitude;
+            _authTicket = authTicket;
+        }
+
+        public RequestEnvelope GetRequestEnvelope(params Request[] customRequests)
         {
             return new RequestEnvelope
             {
@@ -18,19 +34,19 @@ namespace PokemonGo.RocketAPI.Helpers
                 Requests = {customRequests}, //4
 
                 //Unknown6 = , //6
-                Latitude = latitude, //7
-                Longitude = longitude, //8
-                Altitude = altitude, //9
+                Latitude = _latitude, //7
+                Longitude = _longitude, //8
+                Altitude = _altitude, //9
                 AuthInfo = new AuthInfo
                 {
-                    Provider = authType == AuthType.Google ? "google" : "ptc",
+                    Provider = _authType == AuthType.Google ? "google" : "ptc",
                     Token = new AuthInfo.Types.JWT
                     {
-                        Contents = authToken,
+                        Contents = _authToken,
                         Unknown2 = 14
                     }
                 }, //10
-                AuthTicket = authTicket, //11
+                AuthTicket = _authTicket, //11
                 Unknown12 = 989 //12
             };
         }
