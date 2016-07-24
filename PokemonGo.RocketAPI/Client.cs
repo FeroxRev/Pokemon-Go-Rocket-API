@@ -10,7 +10,6 @@ using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Extensions;
 using PokemonGo.RocketAPI.Login;
 using static PokemonGo.RocketAPI.GeneratedCode.Response.Types;
-using System.IO;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
@@ -58,15 +57,11 @@ namespace PokemonGo.RocketAPI
             CurrentAltitude = altitude;
         }
 
+        public string googleRefreshToken = string.Empty;
+
         public async Task DoGoogleLogin()
         {
             SetAuthType(AuthType.Google);
-
-            string googleRefreshToken = string.Empty;
-            if (File.Exists(Directory.GetCurrentDirectory() + "\\Configs\\GoogleAuth.ini"))
-            {
-                googleRefreshToken = File.ReadAllText(Directory.GetCurrentDirectory() + "\\Configs\\GoogleAuth.ini");
-            }
 
             GoogleLogin.TokenResponseModel tokenResponse;
             if (googleRefreshToken != string.Empty)
@@ -97,7 +92,6 @@ namespace PokemonGo.RocketAPI
 
                 tokenResponse = await GoogleLogin.GetAccessToken(deviceCode);
                 googleRefreshToken = tokenResponse?.refresh_token;
-                File.WriteAllText(Directory.GetCurrentDirectory() + "\\Configs\\GoogleAuth.ini", googleRefreshToken);
                 AccessToken = tokenResponse?.id_token;
             }
 
