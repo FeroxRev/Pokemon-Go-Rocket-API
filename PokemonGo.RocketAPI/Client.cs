@@ -427,7 +427,7 @@ namespace PokemonGo.RocketAPI
         {
             var message = new GetInventoryMessage
             {
-                LastTimestampMs = DateTime.UtcNow.ToUnixTime()
+                //LastTimestampMs = DateTime.UtcNow.ToUnixTime()
             };
 
             var request = RequestBuilder.GetRequestEnvelope(AuthToken, _authType, CurrentLatitude,
