@@ -26,25 +26,33 @@ namespace PokemonGo.RocketAPI
         public double CurrentLng { get; private set; }
         public double CurrentAltitude { get; private set; }
 
-        public Client(ISettings settings)
+        public Client(ISettings settings, HttpClient httpClient = default(HttpClient))
         {
             Settings = settings;
             SetCoordinates(Settings.DefaultLatitude, Settings.DefaultLongitude, Settings.DefaultAltitude);
 
             //Setup HttpClient and create default headers
-            HttpClientHandler handler = new HttpClientHandler()
+            if (httpClient == default(HttpClient))
             {
-                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
-                AllowAutoRedirect = false
-            };
-            _httpClient = new HttpClient(new RetryHandler(handler));
-            _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "Niantic App");
+                HttpClientHandler handler = new HttpClientHandler()
+                {
+                    AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+                    AllowAutoRedirect = false
+                };
+
+                _httpClient = new HttpClient(new RetryHandler(handler));
+                _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "Niantic App");
                 //"Dalvik/2.1.0 (Linux; U; Android 5.1.1; SM-G900F Build/LMY48G)");
-            _httpClient.DefaultRequestHeaders.ExpectContinue = false;
-            _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Connection", "keep-alive");
-            _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "*/*");
-            _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type",
-                "application/x-www-form-urlencoded");
+                _httpClient.DefaultRequestHeaders.ExpectContinue = false;
+                _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Connection", "keep-alive");
+                _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "*/*");
+                _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type",
+                    "application/x-www-form-urlencoded");
+            }
+            else
+            {
+                _httpClient = httpClient;
+            }
         }
 
         private void SetCoordinates(double lat, double lng, double altitude)
