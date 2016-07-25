@@ -68,5 +68,16 @@ namespace PokemonGo.RocketAPI.Rpc
 
             return await PostProtoPayload<Request, GetMapObjectsResponse>(request);
         }
+
+        public async Task<GetIncensePokemonResponse> GetIncensePokemons()
+        {
+            var message = new GetIncensePokemonMessage()
+            {
+                PlayerLatitude = _client.CurrentLatitude,
+                PlayerLongitude = _client.CurrentLongitude
+            };
+
+            return await PostProtoPayload<Request, GetIncensePokemonResponse>(RequestType.GetIncensePokemon, message);
+        }
     }
 }
