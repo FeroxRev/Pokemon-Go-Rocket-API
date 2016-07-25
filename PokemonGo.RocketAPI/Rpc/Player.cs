@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Google.Protobuf;
 using PokemonGo.RocketAPI.Extensions;
 using PokemonGo.RocketAPI.Helpers;
+using POGOProtos.Enums;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Responses;
@@ -54,5 +55,22 @@ namespace PokemonGo.RocketAPI.Rpc
         {
             return await PostProtoPayload<Request, CheckAwardedBadgesResponse>(RequestType.CheckAwardedBadges, new CheckAwardedBadgesMessage());
         }
+
+        public async Task<CollectDailyBonusResponse> CollectDailyBonus()
+        {
+            return await PostProtoPayload<Request, CollectDailyBonusResponse>(RequestType.CollectDailyBonus, new CollectDailyBonusMessage());
+        }
+
+        public async Task<CollectDailyDefenderBonusResponse> CollectDailyDefenderBonus()
+        {
+            return await PostProtoPayload<Request, CollectDailyDefenderBonusResponse>(RequestType.CollectDailyDefenderBonus, new CollectDailyDefenderBonusMessage());
+        }
+
+        public async Task<EquipBadgeResponse> EquipBadge(BadgeType type)
+        {
+            return await PostProtoPayload<Request, EquipBadgeResponse>(RequestType.EquipBadge, new EquipBadgeMessage() { BadgeType = type });
+        }
+
+
     }
 }

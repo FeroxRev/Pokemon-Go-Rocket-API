@@ -109,5 +109,18 @@ namespace PokemonGo.RocketAPI.Rpc
 
             return await PostProtoPayload<Request, UseIncenseResponse>(RequestType.UseIncense, message);
         }
+
+        public async Task<UseItemGymResponse> UseItemInGym(string gymId, ItemId itemId)
+        {
+            var message = new UseItemGymMessage()
+            {
+                ItemId = itemId,
+                GymId = gymId,
+                PlayerLatitude = _client.CurrentLatitude,
+                PlayerLongitude = _client.CurrentLongitude
+            };
+
+            return await PostProtoPayload<Request, UseItemGymResponse>(RequestType.UseItemGym, message);
+        }
     }
 }
