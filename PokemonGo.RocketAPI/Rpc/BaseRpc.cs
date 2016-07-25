@@ -8,6 +8,7 @@ using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Extensions;
 using PokemonGo.RocketAPI.Helpers;
 using POGOProtos.Networking.Envelopes;
+using POGOProtos.Networking.Requests;
 
 namespace PokemonGo.RocketAPI.Rpc
 {
@@ -21,15 +22,24 @@ namespace PokemonGo.RocketAPI.Rpc
             _client = client;
         }
 
-        public async Task<TResponsePayload> PostProtoPayload<TRequest, TResponsePayload>(
-            string url, RequestEnvelope requestEnvelope) where TRequest : IMessage<TRequest>
+        protected async Task<TResponsePayload> PostProtoPayload<TRequest, TResponsePayload>(RequestType type, IMessage message) where TRequest : IMessage<TRequest>
             where TResponsePayload : IMessage<TResponsePayload>, new()
         {
-            return await _client.PokemonHttpClient.PostProtoPayload<TRequest, TResponsePayload>(url, requestEnvelope);
+            var requestEnvelops = RequestBuilder.GetRequestEnvelope(type, message);
+            return await _client.PokemonHttpClient.PostProtoPayload<TRequest, TResponsePayload>(ApiUrl, requestEnvelops);
         }
 
-        public async Task<ResponseEnvelope> PostProto<TRequest>(string url,
-            RequestEnvelope requestEnvelope) where TRequest : IMessage<TRequest>
+        protected async Task<TResponsePayload> PostProtoPayload<TRequest, TResponsePayload>(RequestEnvelope requestEnvelope) where TRequest : IMessage<TRequest>
+            where TResponsePayload : IMessage<TResponsePayload>, new()
+        {
+            return await _client.PokemonHttpClient.PostProtoPayload<TRequest, TResponsePayload>(ApiUrl, requestEnvelope);
+        }
+
+        protected async Task<ResponseEnvelope> PostProto<TRequest>(RequestEnvelope requestEnvelope) where TRequest : IMessage<TRequest>
+        {
+            return await _client.PokemonHttpClient.PostProto<TRequest>(ApiUrl, requestEnvelope);
+        }
+        protected async Task<ResponseEnvelope> PostProto<TRequest>(string url, RequestEnvelope requestEnvelope) where TRequest : IMessage<TRequest>
         {
             return await _client.PokemonHttpClient.PostProto<TRequest>(url, requestEnvelope);
         }

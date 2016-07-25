@@ -24,9 +24,8 @@ namespace PokemonGo.RocketAPI.Rpc
                 Latitude = fortLatitude,
                 Longitude = fortLongitude
             };
-
-            var request = RequestBuilder.GetRequestEnvelope(RequestType.FortDetails, message);
-            return await PostProtoPayload<Request, FortDetailsResponse>(ApiUrl, request);
+            
+            return await PostProtoPayload<Request, FortDetailsResponse>(RequestType.FortDetails, message);
         }
 
         public async Task<FortSearchResponse> SearchFort(string fortId, double fortLat, double fortLng)
@@ -39,9 +38,8 @@ namespace PokemonGo.RocketAPI.Rpc
                 PlayerLatitude = _client.CurrentLatitude,
                 PlayerLongitude = _client.CurrentLongitude
             };
-
-            var request = RequestBuilder.GetRequestEnvelope(RequestType.FortSearch, message);
-            return await PostProtoPayload<Request, FortSearchResponse>(ApiUrl, request);
+            
+            return await PostProtoPayload<Request, FortSearchResponse>(RequestType.FortSearch, message);
         }
     }
 }

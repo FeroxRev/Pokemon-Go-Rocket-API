@@ -21,15 +21,13 @@ namespace PokemonGo.RocketAPI.Rpc
             {
                 Hash = "05daf51635c82611d1aac95c0b051d3ec088a930"
             };
-
-            var request = RequestBuilder.GetRequestEnvelope(RequestType.DownloadSettings, message);
-            return await PostProtoPayload<Request, DownloadSettingsResponse>(ApiUrl, request);
+            
+            return await PostProtoPayload<Request, DownloadSettingsResponse>(RequestType.DownloadSettings, message);
         }
 
         public async Task<DownloadItemTemplatesResponse> GetItemTemplates()
         {
-            var request = RequestBuilder.GetRequestEnvelope(RequestType.DownloadItemTemplates, new DownloadItemTemplatesMessage());
-            return await PostProtoPayload<Request, DownloadItemTemplatesResponse>(ApiUrl, request);
+            return await PostProtoPayload<Request, DownloadItemTemplatesResponse>(RequestType.DownloadItemTemplates, new DownloadItemTemplatesMessage());
         }
 
     }

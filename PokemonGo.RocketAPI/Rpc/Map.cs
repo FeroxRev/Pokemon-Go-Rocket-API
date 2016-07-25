@@ -66,7 +66,7 @@ namespace PokemonGo.RocketAPI.Rpc
                     RequestMessage = downloadSettingsMessage.ToByteString()
                 });
 
-            return await PostProtoPayload<Request, GetMapObjectsResponse>(ApiUrl, request);
+            return await PostProtoPayload<Request, GetMapObjectsResponse>(request);
         }
     }
 }

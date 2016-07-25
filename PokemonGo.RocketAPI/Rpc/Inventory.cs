@@ -23,8 +23,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PokemonId = pokemonId
             };
 
-            var request = RequestBuilder.GetRequestEnvelope(RequestType.ReleasePokemon, message);
-            return await PostProtoPayload<Request, ReleasePokemonResponse>(ApiUrl, request);
+            return await PostProtoPayload<Request, ReleasePokemonResponse>(RequestType.ReleasePokemon, message);
         }
 
         public async Task<EvolvePokemonResponse> EvolvePokemon(ulong pokemonId)
@@ -33,15 +32,13 @@ namespace PokemonGo.RocketAPI.Rpc
             {
                 PokemonId = pokemonId
             };
-
-            var request = RequestBuilder.GetRequestEnvelope(RequestType.EvolvePokemon, message);
-            return await PostProtoPayload<Request, EvolvePokemonResponse>(ApiUrl, request);
+            
+            return await PostProtoPayload<Request, EvolvePokemonResponse>(RequestType.EvolvePokemon, message);
         }
 
         public async Task<GetInventoryResponse> GetInventory()
         {
-            var request = RequestBuilder.GetRequestEnvelope(RequestType.GetInventory, new GetInventoryMessage());
-            return await PostProtoPayload<Request, GetInventoryResponse>(ApiUrl, request);
+            return await PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage());
         }
 
         public async Task<RecycleInventoryItemResponse> RecycleItem(ItemId itemId, int amount)
@@ -51,9 +48,8 @@ namespace PokemonGo.RocketAPI.Rpc
                 ItemId = itemId,
                 Count = amount
             };
-
-            var request = RequestBuilder.GetRequestEnvelope(RequestType.RecycleInventoryItem, message);
-            return await PostProtoPayload<Request, RecycleInventoryItemResponse>(ApiUrl, request);
+            
+            return await PostProtoPayload<Request, RecycleInventoryItemResponse>(RequestType.RecycleInventoryItem, message);
         }
 
         public async Task<UseItemXpBoostResponse> UseItemXpBoost()
@@ -62,9 +58,41 @@ namespace PokemonGo.RocketAPI.Rpc
             {
                 ItemId = ItemId.ItemLuckyEgg
             };
+            
+            return await PostProtoPayload<Request, UseItemXpBoostResponse>(RequestType.UseItemXpBoost, message);
+        }
 
-            var request = RequestBuilder.GetRequestEnvelope(RequestType.UseItemXpBoost, message);
-            return await PostProtoPayload<Request, UseItemXpBoostResponse>(ApiUrl, request);
+        public async Task<UseItemEggIncubatorResponse> UseItemEggIncubator(string itemId, ulong pokemonId)
+        {
+            var message = new UseItemEggIncubatorMessage()
+            {
+                ItemId = itemId,
+                PokemonId = pokemonId
+            };
+
+            return await PostProtoPayload<Request, UseItemEggIncubatorResponse>(RequestType.UseItemEggIncubator, message);
+        }
+
+        public async Task<UseItemPotionResponse> UseItemPotion(ItemId itemId, ulong pokemonId)
+        {
+            var message = new UseItemPotionMessage()
+            {
+                ItemId = itemId,
+                PokemonId = pokemonId
+            };
+
+            return await PostProtoPayload<Request, UseItemPotionResponse>(RequestType.UseItemPotion, message);
+        }
+
+        public async Task<UseItemEggIncubatorResponse> UseItemRevive(ItemId itemId, ulong pokemonId)
+        {
+            var message = new UseItemReviveMessage()
+            {
+                ItemId = itemId,
+                PokemonId = pokemonId
+            };
+
+            return await PostProtoPayload<Request, UseItemEggIncubatorResponse>(RequestType.UseItemEggIncubator, message);
         }
     }
 }

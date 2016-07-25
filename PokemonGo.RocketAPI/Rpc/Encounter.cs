@@ -23,9 +23,8 @@ namespace PokemonGo.RocketAPI.Rpc
                 PlayerLatitude = _client.CurrentLatitude,
                 PlayerLongitude = _client.CurrentLongitude
             };
-
-            var request = RequestBuilder.GetRequestEnvelope(RequestType.Encounter, message);
-            return await PostProtoPayload<Request, EncounterResponse>(ApiUrl, request);
+            
+            return await PostProtoPayload<Request, EncounterResponse>(RequestType.Encounter, message);
         }
 
         public async Task<UseItemCaptureResponse> UseCaptureItem(ulong encounterId, ItemId itemId, string spawnPointGuid)
@@ -36,9 +35,8 @@ namespace PokemonGo.RocketAPI.Rpc
                 ItemId = itemId,
                 SpawnPointGuid = spawnPointGuid
             };
-
-            var request = RequestBuilder.GetRequestEnvelope(RequestType.UseItemCapture, message);
-            return await PostProtoPayload<Request, UseItemCaptureResponse>(ApiUrl, request);
+            
+            return await PostProtoPayload<Request, UseItemCaptureResponse>(RequestType.UseItemCapture, message);
         }
 
         public async Task<CatchPokemonResponse> CatchPokemon(ulong encounterId, string spawnPointGuid, ItemId pokeballItemId)
@@ -53,9 +51,8 @@ namespace PokemonGo.RocketAPI.Rpc
                 SpinModifier = 1,
                 NormalizedHitPosition = 1
             };
-
-            var request = RequestBuilder.GetRequestEnvelope(RequestType.CatchPokemon, message);
-            return await PostProtoPayload<Request, CatchPokemonResponse>(ApiUrl, request);
+            
+            return await PostProtoPayload<Request, CatchPokemonResponse>(RequestType.CatchPokemon, message);
         }
     }
 }
