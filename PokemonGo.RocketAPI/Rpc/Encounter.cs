@@ -62,8 +62,21 @@ namespace PokemonGo.RocketAPI.Rpc
                 EncounterId = encounterId,
                 EncounterLocation = encounterLocation
             };
-            
+
             return await PostProtoPayload<Request, IncenseEncounterResponse>(RequestType.IncenseEncounter, message);
+        }
+
+        public async Task<DiskEncounterResponse> EncounterLurePokemon(ulong encounterId, string fortId)
+        {
+            var message = new DiskEncounterMessage()
+            {
+                EncounterId = encounterId,
+                FortId = fortId,
+                PlayerLatitude = _client.CurrentLatitude,
+                PlayerLongitude = _client.CurrentLongitude
+            };
+
+            return await PostProtoPayload<Request, DiskEncounterResponse>(RequestType.DiskEncounter, message);
         }
     }
 }
