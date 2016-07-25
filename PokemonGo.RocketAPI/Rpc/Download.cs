@@ -52,7 +52,15 @@ namespace PokemonGo.RocketAPI.Rpc
                 DeviceModel = deviceModel,
                 Locale = locale,
                 Platform = platform
-            }) ;
+            });
+        }
+
+        public async Task<GetDownloadUrlsResponse> GetDownloadUrls(IEnumerable<string> assetIds)
+        {
+            return await PostProtoPayload<Request, GetDownloadUrlsResponse>(RequestType.GetDownloadUrls, new GetDownloadUrlsMessage()
+            {
+                AssetId = { assetIds }
+            });
         }
 
     }
