@@ -46,9 +46,17 @@ namespace PokemonGo.RocketAPI.Rpc
             _client.CurrentAltitude = altitude;
         }
 
-        public async Task<GetPlayerResponse> GetOwnProfile()
+        public async Task<GetPlayerResponse> GetPlayer()
         {
             return await PostProtoPayload<Request, GetPlayerResponse>(RequestType.GetPlayer, new GetPlayerMessage());
+        }
+
+        public async Task<GetPlayerProfileResponse> GetPlayerProfile(string playerName)
+        {
+            return await PostProtoPayload<Request, GetPlayerProfileResponse>(RequestType.GetPlayerProfile, new GetPlayerProfileMessage()
+            {
+                PlayerName = playerName
+            });
         }
 
         public async Task<CheckAwardedBadgesResponse> GetNewlyAwardedBadges()
