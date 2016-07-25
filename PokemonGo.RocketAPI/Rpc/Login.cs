@@ -14,8 +14,11 @@ using POGOProtos.Networking.Requests.Messages;
 
 namespace PokemonGo.RocketAPI.Rpc
 {
+    public delegate void GoogleDeviceCodeDelegate(string code, string uri);
     public class Login : BaseRpc
     {
+        public event GoogleDeviceCodeDelegate GoogleDeviceCodeEvent;
+
         public Login(Client client) : base(client)
         {
         }
@@ -34,6 +37,7 @@ namespace PokemonGo.RocketAPI.Rpc
             if (_client.AuthToken == null)
             {
                 var deviceCode = await GoogleLogin.GetDeviceCode();
+                GoogleDeviceCodeEvent?.Invoke(deviceCode.user_code, deviceCode.verification_url);
                 tokenResponse = await GoogleLogin.GetAccessToken(deviceCode);
                 _client.Settings.GoogleRefreshToken = tokenResponse?.refresh_token;
                 _client.AuthToken = tokenResponse?.id_token;
