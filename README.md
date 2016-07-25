@@ -1,6 +1,6 @@
 # Pokémon Go Client API
 
-Interface to Pokémon Go Client
+Interface to Pokémon Go Client including pretty much every call
 
 **Read previous issues before opening a new one! Maybe your issue is already answered. Questions will be removed.
 
@@ -29,7 +29,7 @@ var fortSearch = await _client.Fort.SearchFort(pokeStopId, pokeStopLatitude, pok
 
 and a lot more :)
 
-You can visit Pokestops, encounter Pokemon, catch Pokemon, drop items, use items etc
+You can visit Pokestops, encounter Pokemon, catch Pokemon, drop items, use items and everything else :)
 ```
 
 ----------
