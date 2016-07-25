@@ -95,5 +95,13 @@ namespace PokemonGo.RocketAPI.Rpc
                 PlayerAvatar = playerAvatar
             });
         }
+
+        public async Task<SetContactSettingsResponse> SetContactSetting(ContactSettings contactSettings)
+        {
+            return await PostProtoPayload<Request, SetContactSettingsResponse>(RequestType.SetContactSettings, new SetContactSettingsMessage()
+            {
+                ContactSettings = contactSettings
+            });
+        }
     }
 }
