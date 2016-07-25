@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PokemonGo.RocketAPI.Helpers;
+using POGOProtos.Enums;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Responses;
@@ -28,6 +29,18 @@ namespace PokemonGo.RocketAPI.Rpc
         public async Task<DownloadItemTemplatesResponse> GetItemTemplates()
         {
             return await PostProtoPayload<Request, DownloadItemTemplatesResponse>(RequestType.DownloadItemTemplates, new DownloadItemTemplatesMessage());
+        }
+
+        public async Task<DownloadRemoteConfigVersionResponse> GetRemoteConfigVersion(uint appVersion, string deviceManufacturer, string deviceModel, string locale, Platform platform)
+        {
+            return await PostProtoPayload<Request, DownloadRemoteConfigVersionResponse>(RequestType.DownloadRemoteConfigVersion, new DownloadRemoteConfigVersionMessage()
+            {
+                AppVersion = appVersion,
+                DeviceManufacturer = deviceManufacturer,
+                DeviceModel = deviceModel,
+                Locale = locale,
+                Platform = platform
+            });
         }
 
     }
