@@ -29,7 +29,7 @@ var fortSearch = await _client.Fort.SearchFort(pokeStopId, pokeStopLatitude, pok
 
 and a lot more :)
 
-You can visit Pokestops, encounter Pokemon, catch Pokemon, drop items, use items and everything else :)
+You can visit Pokestops, encounter Pokemon (normal/lure/incense), catch Pokemon, drop items, use items and everything else :)
 ```
 
 ----------
