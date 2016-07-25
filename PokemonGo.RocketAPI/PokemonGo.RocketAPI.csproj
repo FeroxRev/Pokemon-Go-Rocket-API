@@ -101,6 +101,7 @@
     <Compile Include="Rpc\Inventory.cs" />
     <Compile Include="Rpc\Login.cs" />
     <Compile Include="Rpc\Map.cs" />
+    <Compile Include="Rpc\Misc.cs" />
     <Compile Include="Rpc\Player.cs" />
     <None Include="app.config" />
     <Compile Include="Client.cs" />

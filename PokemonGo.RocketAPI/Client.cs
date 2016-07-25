@@ -27,6 +27,7 @@ namespace PokemonGo.RocketAPI
         public Rpc.Map Map => new Rpc.Map(this);
         public Rpc.Fort Fort => new Rpc.Fort(this);
         public Rpc.Encounter Encounter => new Rpc.Encounter(this);
+        public Rpc.Misc Misc => new Rpc.Misc(this);
 
         public ISettings Settings { get; }
         public string AuthToken { get; set; }
