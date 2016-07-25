@@ -79,6 +79,12 @@ namespace PokemonGo.RocketAPI.Rpc
             return await PostProtoPayload<Request, EquipBadgeResponse>(RequestType.EquipBadge, new EquipBadgeMessage() { BadgeType = type });
         }
 
-
+        public async Task<LevelUpRewardsResponse> GetLevelUpRewards(int level)
+        {
+            return await PostProtoPayload<Request, LevelUpRewardsResponse>(RequestType.LevelUpRewards, new LevelUpRewardsMessage()
+            {
+                Level = level
+            });
+        }
     }
 }
