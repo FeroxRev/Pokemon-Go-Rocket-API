@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Google.Protobuf;
 using PokemonGo.RocketAPI.Extensions;
 using PokemonGo.RocketAPI.Helpers;
+using POGOProtos.Data.Player;
 using POGOProtos.Enums;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
@@ -84,6 +85,14 @@ namespace PokemonGo.RocketAPI.Rpc
             return await PostProtoPayload<Request, LevelUpRewardsResponse>(RequestType.LevelUpRewards, new LevelUpRewardsMessage()
             {
                 Level = level
+            });
+        }
+
+        public async Task<SetAvatarResponse> SetAvatar(PlayerAvatar playerAvatar)
+        {
+            return await PostProtoPayload<Request, SetAvatarResponse>(RequestType.SetAvatar, new SetAvatarMessage()
+            {
+                PlayerAvatar = playerAvatar
             });
         }
     }

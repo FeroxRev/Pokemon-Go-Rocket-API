@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
@@ -131,6 +132,17 @@ namespace PokemonGo.RocketAPI.Rpc
             };
 
             return await PostProtoPayload<Request, UseItemGymResponse>(RequestType.UseItemGym, message);
+        }
+
+        public async Task<NicknamePokemonResponse> NicknamePokemon(ulong pokemonId, string nickName)
+        {
+            var message = new NicknamePokemonMessage()
+            {
+                PokemonId = pokemonId,
+                Nickname = nickName
+            };
+
+            return await PostProtoPayload<Request, NicknamePokemonResponse>(RequestType.NicknamePokemon, message);
         }
     }
 }
