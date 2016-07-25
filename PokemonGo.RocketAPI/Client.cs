@@ -20,14 +20,14 @@ namespace PokemonGo.RocketAPI
 {
     public class Client
     {
-        public Rpc.Login Login => new Rpc.Login(this);
-        public Rpc.Player Player => new Rpc.Player(this);
-        public Rpc.Download Download => new Rpc.Download(this);
-        public Rpc.Inventory Inventory => new Rpc.Inventory(this);
-        public Rpc.Map Map => new Rpc.Map(this);
-        public Rpc.Fort Fort => new Rpc.Fort(this);
-        public Rpc.Encounter Encounter => new Rpc.Encounter(this);
-        public Rpc.Misc Misc => new Rpc.Misc(this);
+        public Rpc.Login Login;
+        public Rpc.Player Player;
+        public Rpc.Download Download;
+        public Rpc.Inventory Inventory;
+        public Rpc.Map Map;
+        public Rpc.Fort Fort;
+        public Rpc.Encounter Encounter;
+        public Rpc.Misc Misc;
 
         public ISettings Settings { get; }
         public string AuthToken { get; set; }
@@ -45,6 +45,16 @@ namespace PokemonGo.RocketAPI
         public Client(ISettings settings)
         {
             Settings = settings;
+
+            Login = new Rpc.Login(this);
+            Player = new Rpc.Player(this);
+            Download = new Rpc.Download(this);
+            Inventory = new Rpc.Inventory(this);
+            Map = new Rpc.Map(this);
+            Fort = new Rpc.Fort(this);
+            Encounter = new Rpc.Encounter(this);
+            Misc = new Rpc.Misc(this);
+
             Player.SetCoordinates(Settings.DefaultLatitude, Settings.DefaultLongitude, Settings.DefaultAltitude);
         }
     }
