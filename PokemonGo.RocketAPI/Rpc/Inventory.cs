@@ -94,5 +94,15 @@ namespace PokemonGo.RocketAPI.Rpc
 
             return await PostProtoPayload<Request, UseItemEggIncubatorResponse>(RequestType.UseItemEggIncubator, message);
         }
+
+        public async Task<UseIncenseResponse> UseIncense(ItemId incenseType)
+        {
+            var message = new UseIncenseMessage()
+            {
+                IncenseType = incenseType
+            };
+
+            return await PostProtoPayload<Request, UseIncenseResponse>(RequestType.UseIncense, message);
+        }
     }
 }
