@@ -18,17 +18,29 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<ClaimCodenameResponse> ClaimCodename(string codename)
         {
-            return await PostProtoPayload<Request, ClaimCodenameResponse>(RequestType.ClaimCodename, new ClaimCodenameMessage()
-            {
-                Codename = codename
-            });
+            return
+                await
+                    PostProtoPayload<Request, ClaimCodenameResponse>(RequestType.ClaimCodename,
+                        new ClaimCodenameMessage()
+                        {
+                            Codename = codename
+                        });
         }
+
         public async Task<CheckCodenameAvailableResponse> CheckCodenameAvailable(string codename)
         {
-            return await PostProtoPayload<Request, CheckCodenameAvailableResponse>(RequestType.CheckCodenameAvailable, new CheckCodenameAvailableMessage()
-            {
-                Codename = codename
-            });
+            return
+                await
+                    PostProtoPayload<Request, CheckCodenameAvailableResponse>(RequestType.CheckCodenameAvailable,
+                        new CheckCodenameAvailableMessage()
+                        {
+                            Codename = codename
+                        });
+        }
+
+        public async Task<EchoResponse> SendEcho()
+        {
+            return await PostProtoPayload<Request, EchoResponse>(RequestType.Echo, new EchoMessage());
         }
     }
 }

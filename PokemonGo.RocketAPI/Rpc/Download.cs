@@ -43,5 +43,17 @@ namespace PokemonGo.RocketAPI.Rpc
             });
         }
 
+        public async Task<GetAssetDigestResponse> GetAssetDigest(uint appVersion, string deviceManufacturer, string deviceModel, string locale, Platform platform)
+        {
+            return await PostProtoPayload<Request, GetAssetDigestResponse>(RequestType.GetAssetDigest, new GetAssetDigestMessage()
+            {
+                AppVersion = appVersion,
+                DeviceManufacturer = deviceManufacturer,
+                DeviceModel = deviceModel,
+                Locale = locale,
+                Platform = platform
+            }) ;
+        }
+
     }
 }
