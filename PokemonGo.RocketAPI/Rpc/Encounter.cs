@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
@@ -77,6 +78,16 @@ namespace PokemonGo.RocketAPI.Rpc
             };
 
             return await PostProtoPayload<Request, DiskEncounterResponse>(RequestType.DiskEncounter, message);
+        }
+
+        public async Task<EncounterTutorialCompleteResponse> EncounterLurePokemon(PokemonId pokemonId)
+        {
+            var message = new EncounterTutorialCompleteMessage()
+            {
+                PokemonId = pokemonId
+            };
+
+            return await PostProtoPayload<Request, EncounterTutorialCompleteResponse>(RequestType.EncounterTutorialComplete, message);
         }
     }
 }

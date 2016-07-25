@@ -47,5 +47,10 @@ namespace PokemonGo.RocketAPI.Rpc
         {
             return await PostProtoPayload<Request, EchoResponse>(RequestType.Echo, new EchoMessage());
         }
+
+        public async Task<EncounterTutorialCompleteResponse> MarkTutorialComplete()
+        {
+            return await PostProtoPayload<Request, EncounterTutorialCompleteResponse>(RequestType.MarkTutorialComplete, new MarkTutorialCompleteMessage())
+        }
     }
 }
