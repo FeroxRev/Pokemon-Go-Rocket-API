@@ -38,7 +38,7 @@ namespace PokemonGo.RocketAPI.Rpc
                         });
         }
 
-        public async Task<GetSuggestedCodenamesResponse> GestSuggestedCodenames()
+        public async Task<GetSuggestedCodenamesResponse> GetSuggestedCodenames()
         {
             return await PostProtoPayload<Request, GetSuggestedCodenamesResponse>(RequestType.GetSuggestedCodenames, new GetSuggestedCodenamesMessage());
         }

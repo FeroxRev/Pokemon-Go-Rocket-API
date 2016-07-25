@@ -32,8 +32,18 @@ namespace PokemonGo.RocketAPI.Rpc
             {
                 PokemonId = pokemonId
             };
-            
+
             return await PostProtoPayload<Request, EvolvePokemonResponse>(RequestType.EvolvePokemon, message);
+        }
+
+        public async Task<UpgradePokemonResponse> UpgradePokemon(ulong pokemonId)
+        {
+            var message = new UpgradePokemonMessage()
+            {
+                PokemonId = pokemonId
+            };
+
+            return await PostProtoPayload<Request, UpgradePokemonResponse>(RequestType.UpgradePokemon, message);
         }
 
         public async Task<GetInventoryResponse> GetInventory()
