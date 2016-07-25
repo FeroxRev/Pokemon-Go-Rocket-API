@@ -24,7 +24,7 @@ var evolvePokemon = await _client.Inventory.EvolvePokemon(pokemonId);
 var transfer = await _client.Inventory.TransferPokemon(pokemonId);
 var transfer = await _client.Inventory.RecycleItem(item.ItemId, item.Count);
 var useBerry = await _client.Encounter.UseCaptureItem(encounterId, ItemId.ItemRazzBerry, spawnPointId);
-var fortInfo = await _client.GetFort(pokeStopId, pokeStopLatitude, pokeStopLongitude);
+var fortInfo = await _client.Fort.GetFort(pokeStopId, pokeStopLatitude, pokeStopLongitude);
 var fortSearch = await _client.Fort.SearchFort(pokeStopId, pokeStopLatitude, pokeStopLongitude);
 
 and a lot more :)
