@@ -39,7 +39,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return await PostProtoPayload<Request, UseItemCaptureResponse>(RequestType.UseItemCapture, message);
         }
 
-        public async Task<CatchPokemonResponse> CatchPokemon(ulong encounterId, string spawnPointGuid, ItemId pokeballItemId)
+        public async Task<CatchPokemonResponse> CatchPokemon(ulong encounterId, string spawnPointGuid, ItemId pokeballItemId, double normalizedRecticleSize = 1.950, double spinModifier = 1, double normalizedHitPos = 1)
         {
             var message = new CatchPokemonMessage
             {
@@ -47,9 +47,9 @@ namespace PokemonGo.RocketAPI.Rpc
                 Pokeball = pokeballItemId,
                 SpawnPointId = spawnPointGuid,
                 HitPokemon = true,
-                NormalizedReticleSize = 1.950,
-                SpinModifier = 1,
-                NormalizedHitPosition = 1
+                NormalizedReticleSize = normalizedRecticleSize,
+                SpinModifier = spinModifier,
+                NormalizedHitPosition = normalizedHitPos
             };
             
             return await PostProtoPayload<Request, CatchPokemonResponse>(RequestType.CatchPokemon, message);
