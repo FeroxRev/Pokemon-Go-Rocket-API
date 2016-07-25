@@ -103,5 +103,13 @@ namespace PokemonGo.RocketAPI.Rpc
                 ContactSettings = contactSettings
             });
         }
+
+        public async Task<SetPlayerTeamResponse> SetPlayerTeam(TeamColor teamColor)
+        {
+            return await PostProtoPayload<Request, SetPlayerTeamResponse>(RequestType.SetPlayerTeam, new SetPlayerTeamMessage()
+            {
+                Team = teamColor
+            });
+        }
     }
 }
