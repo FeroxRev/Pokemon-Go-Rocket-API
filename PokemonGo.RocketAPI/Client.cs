@@ -9,6 +9,7 @@ using PokemonGo.RocketAPI.Extensions;
 using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Login;
 using POGOProtos.Inventory;
+using POGOProtos.Inventory.Item;
 using POGOProtos.Networking.Envelopes;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
@@ -299,8 +300,8 @@ namespace PokemonGo.RocketAPI
             var message = new CatchPokemonMessage
             {
                 EncounterId = encounterId,
-                Pokeball = (int) pokeballItemId,
-                SpawnPointGuid = spawnPointGuid,
+                Pokeball = pokeballItemId,
+                SpawnPointId = spawnPointGuid,
                 HitPokemon = true,
                 NormalizedReticleSize = 1.950,
                 SpinModifier = 1,
@@ -360,8 +361,6 @@ namespace PokemonGo.RocketAPI
 
             var request = RequestBuilder.GetRequestEnvelope(RequestType.UseItemXpBoost, message);
             return await _httpClient.PostProtoPayload<Request, UseItemXpBoostResponse>($"https://{_apiUrl}/rpc", request);
-
-
         }
     }
 }
