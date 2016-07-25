@@ -73,6 +73,11 @@ namespace PokemonGo.RocketAPI.Rpc
             return await PostProtoPayload<Request, UseItemEggIncubatorResponse>(RequestType.UseItemEggIncubator, message);
         }
 
+        public async Task<GetHatchedEggsResponse> GetHatchedEgg()
+        {
+            return await PostProtoPayload<Request, GetHatchedEggsResponse>(RequestType.GetHatchedEggs, new GetHatchedEggsMessage());
+        }
+
         public async Task<UseItemPotionResponse> UseItemPotion(ItemId itemId, ulong pokemonId)
         {
             var message = new UseItemPotionMessage()
