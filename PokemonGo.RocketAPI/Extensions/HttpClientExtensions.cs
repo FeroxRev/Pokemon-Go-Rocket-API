@@ -9,7 +9,7 @@ namespace PokemonGo.RocketAPI.Extensions
 {
     public static class HttpClientExtensions
     {
-        public static async Task<TResponsePayload> PostProtoPayload<TRequest, TResponsePayload>(this HttpClient client,
+        public static async Task<TResponsePayload> PostProtoPayload<TRequest, TResponsePayload>(this System.Net.Http.HttpClient client,
             string url, RequestEnvelope requestEnvelope) where TRequest : IMessage<TRequest>
             where TResponsePayload : IMessage<TResponsePayload>, new()
         {
@@ -28,7 +28,7 @@ namespace PokemonGo.RocketAPI.Extensions
             return parsedPayload;
         }
 
-        public static async Task<ResponseEnvelope> PostProto<TRequest>(this HttpClient client, string url,
+        public static async Task<ResponseEnvelope> PostProto<TRequest>(this System.Net.Http.HttpClient client, string url,
             RequestEnvelope requestEnvelope) where TRequest : IMessage<TRequest>
         {
             //Encode payload and put in envelop, then send

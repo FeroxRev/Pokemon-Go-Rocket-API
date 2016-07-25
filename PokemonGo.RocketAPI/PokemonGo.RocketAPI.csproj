@@ -79,6 +79,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HttpClient\PokemonClient.cs" />
     <Compile Include="Enums\AuthType.cs" />
     <Compile Include="Exceptions\AccessTokenExpiredException.cs" />
     <Compile Include="Exceptions\AccountNotVerifiedException.cs" />
@@ -93,8 +94,14 @@
     <Compile Include="ISettings.cs" />
     <Compile Include="Login\GoogleLogin.cs" />
     <Compile Include="Login\PtcLogin.cs" />
+    <Compile Include="Rpc\BaseRpc.cs" />
+    <Compile Include="Rpc\Download.cs" />
+    <Compile Include="Rpc\Encounter.cs" />
+    <Compile Include="Rpc\Fort.cs" />
     <Compile Include="Rpc\Inventory.cs" />
     <Compile Include="Rpc\Login.cs" />
+    <Compile Include="Rpc\Map.cs" />
+    <Compile Include="Rpc\Player.cs" />
     <None Include="app.config" />
     <Compile Include="Client.cs" />
     <Compile Include="Extensions\HttpClientExtensions.cs" />
