@@ -46,9 +46,9 @@ namespace PokemonGo.RocketAPI.Rpc
             await SetServer();
         }
 
-        public async Task DoPtcLogin(string username, string password)
+        public async Task DoPtcLogin()
         {
-            _client.AuthToken = await PtcLogin.GetAccessToken(username, password);
+            _client.AuthToken = await PtcLogin.GetAccessToken(_client.Settings.PtcUsername, _client.Settings.PtcPassword);
             _client.AuthType = AuthType.Ptc;
 
             await SetServer();
