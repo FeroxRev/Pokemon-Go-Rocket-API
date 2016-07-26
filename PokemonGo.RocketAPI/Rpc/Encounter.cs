@@ -56,7 +56,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return await PostProtoPayload<Request, CatchPokemonResponse>(RequestType.CatchPokemon, message);
         }
 
-        public async Task<IncenseEncounterResponse> EncounterIncensePokemon(long encounterId, string encounterLocation)
+        public async Task<IncenseEncounterResponse> EncounterIncensePokemon(ulong encounterId, string encounterLocation)
         {
             var message = new IncenseEncounterMessage()
             {
@@ -80,7 +80,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return await PostProtoPayload<Request, DiskEncounterResponse>(RequestType.DiskEncounter, message);
         }
 
-        public async Task<EncounterTutorialCompleteResponse> EncounterLurePokemon(PokemonId pokemonId)
+        public async Task<EncounterTutorialCompleteResponse> EncounterTutorialComplete(PokemonId pokemonId)
         {
             var message = new EncounterTutorialCompleteMessage()
             {
