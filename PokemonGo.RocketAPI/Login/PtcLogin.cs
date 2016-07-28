@@ -18,7 +18,7 @@ namespace PokemonGo.RocketAPI.Login
                 AllowAutoRedirect = false
             };
 
-            using (var tempHttpClient = new System.Net.Http.HttpClient(handler))
+            using (var tempHttpClient = new System.Net.Http.HttpClient(new RetryHandler(handler)))
             {
                 //Get session cookie
                 var sessionResp = await tempHttpClient.GetAsync(Resources.PtcLoginUrl);
@@ -41,11 +41,15 @@ namespace PokemonGo.RocketAPI.Login
                             new KeyValuePair<string, string>("password", password)
                         }));
 
+                var content = await loginResp.Content.ReadAsStringAsync();
+
                 if (loginResp.Headers.Location == null)
                 {
                     //This should be sufficient for catching AccountNotVerified exceptions
+                    var errors = JsonHelper.GetValue(content, "errors");
                     if (loginResp.StatusCode == HttpStatusCode.OK && !loginResp.Headers.Contains("Set-Cookies"))
-                        throw new AccountNotVerifiedException();
+                        throw new AccountNotVerifiedException(errors);
+
                     throw new PtcOfflineException();
                 }
 

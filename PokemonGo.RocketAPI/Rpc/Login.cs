@@ -83,7 +83,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
             #endregion
 
-            var serverRequest = RequestBuilder.GetRequestEnvelope(
+            var serverRequest = RequestBuilder.GetInitialRequestEnvelope(
                 new Request
                 {
                     RequestType = RequestType.GetPlayer,
