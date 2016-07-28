@@ -8,3 +8,5 @@
 /PokemonGo.RocketAPI/Proto/google/protobuf
 *.sln
 *.suo
+/PokemonGo.RocketAPI/bin/Release
+/PokemonGo.RocketAPI/obj/Release

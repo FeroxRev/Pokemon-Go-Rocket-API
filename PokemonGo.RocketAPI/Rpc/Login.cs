@@ -14,16 +14,26 @@ using POGOProtos.Networking.Requests.Messages;
 
 namespace PokemonGo.RocketAPI.Rpc
 {
+    public delegate void GoogleDeviceCodeDelegate(string code, string uri);
     public class Login : BaseRpc
     {
+        //public event GoogleDeviceCodeDelegate GoogleDeviceCodeEvent;
+
         public Login(Client client) : base(client)
         {
         }
 
-        public async Task DoGoogleLogin()
+        public async Task DoGoogleLogin(string username,string password)
         {
             _client.AuthType = AuthType.Google;
 
+            _client.AuthToken = GoogleLoginGPSOAuth.DoLogin(username, password);
+            await SetServer();
+
+            /*
+            * This is our old authentication method
+            * Keeping this around in case we might need it later on
+            *
             GoogleLogin.TokenResponseModel tokenResponse = null;
             if (_client.Settings.GoogleRefreshToken != string.Empty)
             {
@@ -34,12 +44,17 @@ namespace PokemonGo.RocketAPI.Rpc
             if (_client.AuthToken == null)
             {
                 var deviceCode = await GoogleLogin.GetDeviceCode();
+                if(deviceCode?.user_code == null || deviceCode?.verification_url == null)
+                    throw new GoogleOfflineException();
+
+                GoogleDeviceCodeEvent?.Invoke(deviceCode.user_code, deviceCode.verification_url);
                 tokenResponse = await GoogleLogin.GetAccessToken(deviceCode);
                 _client.Settings.GoogleRefreshToken = tokenResponse?.refresh_token;
                 _client.AuthToken = tokenResponse?.id_token;
             }
 
             await SetServer();
+            */
         }
 
         public async Task DoPtcLogin(string username, string password)
@@ -95,7 +110,10 @@ namespace PokemonGo.RocketAPI.Rpc
             var serverResponse = await PostProto<Request>(Resources.RpcUrl, serverRequest);
 
             if (serverResponse.AuthTicket == null)
+            {
+                _client.AuthToken = null;
                 throw new AccessTokenExpiredException();
+            }
 
             _client.AuthTicket = serverResponse.AuthTicket;
             _client.ApiUrl = serverResponse.ApiUrl;
