@@ -34,7 +34,7 @@ namespace PokemonGo.RocketAPI.Rpc
             {
                 EncounterId = encounterId,
                 ItemId = itemId,
-                SpawnPointGuid = spawnPointGuid
+                SpawnPointId = spawnPointGuid
             };
             
             return await PostProtoPayload<Request, UseItemCaptureResponse>(RequestType.UseItemCapture, message);
