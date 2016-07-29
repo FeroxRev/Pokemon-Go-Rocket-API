@@ -80,7 +80,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return await PostProtoPayload<Request, DiskEncounterResponse>(RequestType.DiskEncounter, message);
         }
 
-        public async Task<EncounterTutorialCompleteResponse> EncounterLurePokemon(PokemonId pokemonId)
+        public async Task<EncounterTutorialCompleteResponse> EncounterTutorialComplete(PokemonId pokemonId)
         {
             var message = new EncounterTutorialCompleteMessage()
             {
