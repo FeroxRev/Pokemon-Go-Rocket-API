@@ -85,6 +85,7 @@
   <ItemGroup>
     <Compile Include="Exceptions\GoogleException.cs" />
     <Compile Include="Exceptions\GoogleOfflineException.cs" />
+    <Compile Include="Exceptions\LoginFailedException.cs" />
     <Compile Include="HttpClient\PokemonClient.cs" />
     <Compile Include="Enums\AuthType.cs" />
     <Compile Include="Exceptions\AccessTokenExpiredException.cs" />
@@ -99,7 +100,7 @@
     <Compile Include="Helpers\Utils.cs" />
     <Compile Include="ISettings.cs" />
     <Compile Include="Login\GoogleLogin.cs" />
-    <Compile Include="Login\GoogleLoginGPSOAuth.cs" />
+    <Compile Include="Login\ILoginType.cs" />
     <Compile Include="Login\PtcLogin.cs" />
     <Compile Include="Rpc\BaseRpc.cs" />
     <Compile Include="Rpc\Download.cs" />

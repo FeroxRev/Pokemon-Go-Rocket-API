@@ -1,4 +1,4 @@
-using DankMemes.GPSOAuthSharp;
+﻿using DankMemes.GPSOAuthSharp;
 using PokemonGo.RocketAPI.Exceptions;
 using System;
 using System.Collections.Generic;
