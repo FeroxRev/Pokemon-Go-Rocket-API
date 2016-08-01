@@ -29,6 +29,7 @@ namespace PokemonGo.RocketAPI
         public Rpc.Encounter Encounter;
         public Rpc.Misc Misc;
 
+        public IApiFailureStrategy ApiFailure { get; set; }
         public ISettings Settings { get; }
         public string AuthToken { get; set; }
 
