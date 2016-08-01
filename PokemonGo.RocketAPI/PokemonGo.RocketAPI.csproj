@@ -39,7 +39,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="GPSOAuthSharp, Version=0.0.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\GPSOAuthSharp.0.0.5\lib\GPSOAuthSharp.dll</HintPath>
+      <HintPath>$(SolutionDir)\packages\GPSOAuthSharp.0.0.5\lib\GPSOAuthSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -56,10 +56,10 @@
     </Reference>
     <Reference Include="POGOProtos, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>$(SolutionDir)\packages\POGOProtos.1.4.0\lib\net45\POGOProtos.dll</HintPath>
-      <Private>True</Private>
+    <Private>True</Private>
     </Reference>
     <Reference Include="S2Geometry, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>$(SolutionDir)\packages\S2Geometry.1.0.1\lib\portable-net45+wp8+win8\S2Geometry.dll</HintPath>
+      <HintPath>$(SolutionDir)\packages\S2Geometry.1.0.3\lib\portable-net45+wp8+win8\S2Geometry.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
