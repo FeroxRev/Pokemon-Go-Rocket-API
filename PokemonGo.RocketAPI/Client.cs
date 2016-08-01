@@ -37,7 +37,7 @@ namespace PokemonGo.RocketAPI
         public double CurrentLongitude { get; internal set; }
         public double CurrentAltitude { get; internal set; }
 
-        public AuthType AuthType { get; set; } = AuthType.Google;
+        public AuthType AuthType => Settings.AuthType;
 
         internal readonly PokemonHttpClient PokemonHttpClient = new PokemonHttpClient();
         internal string ApiUrl { get; set; }
