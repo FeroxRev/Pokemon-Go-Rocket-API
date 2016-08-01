@@ -43,9 +43,10 @@ namespace PokemonGo.RocketAPI
         internal string ApiUrl { get; set; }
         internal AuthTicket AuthTicket { get; set; }
 
-        public Client(ISettings settings)
+        public Client(ISettings settings, IApiFailureStrategy apiFailureStrategy)
         {
             Settings = settings;
+            ApiFailure = apiFailureStrategy;
 
             Login = new Rpc.Login(this);
             Player = new Rpc.Player(this);
