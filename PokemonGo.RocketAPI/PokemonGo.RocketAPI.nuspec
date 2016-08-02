@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>PokemonGo.RocketAPI</id>
+        <version>1.0.0-beta</version>
+        <authors>FeroxRev</authors>
+        <owners>Tapanila</owners>
+        <licenseUrl>https://raw.githubusercontent.com/FeroxRev/Pokemon-Go-Rocket-API/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/FeroxRev/Pokemon-Go-Rocket-API</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Interface to Pokémon Go Client including pretty much every call</description>
+        <releaseNotes>Initial nuget release</releaseNotes>
+        <copyright>Copyright 2016</copyright>
+		<tags>Pokemon, Pokemon Go, PokemonGo</tags>
+    </metadata>
+</package>

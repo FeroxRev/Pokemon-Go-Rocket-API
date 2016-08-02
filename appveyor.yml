@@ -1,0 +1,20 @@
+version: 1.0.{build}
+assembly_info:
+  patch: true
+  file: AssemblyInfo.*
+  assembly_version: "{version}"
+  assembly_file_version: "{version}"
+  assembly_informational_version: "{version}"
+configuration: Release
+before_build:
+- ps: nuget restore -PackagesDirectory ./PokemonGo.RocketAPI/packages PokemonGo.RocketAPI/PokemonGo.RocketAPI.csproj
+build_script:
+- ps: msbuild "PokemonGo.RocketAPI\PokemonGo.RocketAPI.csproj" /p:SolutionDir=. /verbosity:minimal /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+- ps: nuget pack .\PokemonGo.RocketApi\PokemonGo.RocketApi.csproj
+artifacts:
+- path: '*.nupkg'
+  name: Nuget
+deploy:
+- provider: NuGet
+  api_key:
+      secure: 4YYYawFKzaSc0vT1pVxuzWGaiRUEyPO4JOXeDe5rvr5KvYfVEbWziHQ+SJDdBCZI
