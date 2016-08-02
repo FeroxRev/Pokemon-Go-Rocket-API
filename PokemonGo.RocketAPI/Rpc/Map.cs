@@ -18,7 +18,7 @@ namespace PokemonGo.RocketAPI.Rpc
         {
         }
 
-        public async Task<GetMapObjectsResponse> GetMapObjects()
+        public async Task<Tuple<GetMapObjectsResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse>> GetMapObjects()
         {
             #region Messages
 
@@ -65,8 +65,7 @@ namespace PokemonGo.RocketAPI.Rpc
                     RequestType = RequestType.DownloadSettings,
                     RequestMessage = downloadSettingsMessage.ToByteString()
                 });
-
-            return await PostProtoPayload<Request, GetMapObjectsResponse>(request);
+            return await PostProtoPayload<Request, GetMapObjectsResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse>(request);
         }
 
         public async Task<GetIncensePokemonResponse> GetIncensePokemons()
