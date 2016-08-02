@@ -22,7 +22,9 @@ namespace PokemonGo.RocketAPI.Login
             this.password = password;
         }
 
+#pragma warning disable 1998
         public async Task<string> GetAccessToken()
+#pragma warning restore 1998
         {
             var client = new GPSOAuthClient(email, password);
             var response = client.PerformMasterLogin();
