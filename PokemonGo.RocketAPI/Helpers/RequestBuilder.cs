@@ -59,7 +59,7 @@ namespace PokemonGo.RocketAPI.Helpers
                 Altitude = _altitude, //9
                 AuthInfo = new AuthInfo
                 {
-                    Provider = _authType == AuthType.Google ? "google" : "ptc",
+                    Provider = _authType != AuthType.Ptc ? "google" : "ptc",
                     Token = new AuthInfo.Types.JWT
                     {
                         Contents = _authToken,
