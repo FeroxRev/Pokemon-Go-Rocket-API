@@ -17,8 +17,8 @@ namespace PokemonGo.RocketAPI.Extensions
 
     public interface IApiFailureStrategy
     {
-        Task<ApiOperation> HandleApiFailure();
-        void HandleApiSuccess();
+        Task<ApiOperation> HandleApiFailure(RequestEnvelope request, ResponseEnvelope response);
+        void HandleApiSuccess(RequestEnvelope request, ResponseEnvelope response);
     }
 
     public static class HttpClientExtensions
@@ -41,14 +41,14 @@ namespace PokemonGo.RocketAPI.Extensions
             ResponseEnvelope response;
             while ((response = await PostProto<TRequest>(client, url, requestEnvelope)).Returns.Count != responseTypes.Length)
             {
-                var operation = await strategy.HandleApiFailure();
+                var operation = await strategy.HandleApiFailure(requestEnvelope, response);
                 if (operation == ApiOperation.Abort)
                 {
                     throw new InvalidResponseException($"Expected {responseTypes.Length} responses, but got {response.Returns.Count} responses");
                 }
             }
 
-            strategy.HandleApiSuccess();
+            strategy.HandleApiSuccess(requestEnvelope, response);
 
             for (var i = 0; i < responseTypes.Length; i++)
             {
@@ -67,7 +67,7 @@ namespace PokemonGo.RocketAPI.Extensions
 
             while (response.Returns.Count == 0)
             {
-                var operation = await strategy.HandleApiFailure();
+                var operation = await strategy.HandleApiFailure(requestEnvelope, response);
                 if (operation == ApiOperation.Abort)
                 {
                     break;
@@ -79,7 +79,7 @@ namespace PokemonGo.RocketAPI.Extensions
             if (response.Returns.Count == 0)
                 throw new InvalidResponseException();
 
-            strategy.HandleApiSuccess();
+            strategy.HandleApiSuccess(requestEnvelope, response);
 
             //Decode payload
             //todo: multi-payload support
