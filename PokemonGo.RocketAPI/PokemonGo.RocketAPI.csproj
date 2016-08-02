@@ -54,8 +54,8 @@
       <HintPath>$(SolutionDir)\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="POGOProtos, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>$(SolutionDir)\packages\POGOProtos.1.3.0\lib\net45\POGOProtos.dll</HintPath>
+    <Reference Include="POGOProtos, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\POGOProtos.1.5.0\lib\net45\POGOProtos.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="S2Geometry, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -85,12 +85,13 @@
   <ItemGroup>
     <Compile Include="Exceptions\GoogleException.cs" />
     <Compile Include="Exceptions\GoogleOfflineException.cs" />
+    <Compile Include="Exceptions\LoginFailedException.cs" />
     <Compile Include="HttpClient\PokemonClient.cs" />
     <Compile Include="Enums\AuthType.cs" />
     <Compile Include="Exceptions\AccessTokenExpiredException.cs" />
     <Compile Include="Exceptions\AccountNotVerifiedException.cs" />
     <Compile Include="Exceptions\InvalidResponseException.cs" />
-    <Compile Include="Exceptions\PtcOfflineException.cs" />
+    <Compile Include="Exceptions\PTCOfflineException.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Helpers\HttpClientHelper.cs" />
     <Compile Include="Helpers\JsonHelper.cs" />
@@ -99,7 +100,7 @@
     <Compile Include="Helpers\Utils.cs" />
     <Compile Include="ISettings.cs" />
     <Compile Include="Login\GoogleLogin.cs" />
-    <Compile Include="Login\GoogleLoginGPSOAuth.cs" />
+    <Compile Include="Login\ILoginType.cs" />
     <Compile Include="Login\PtcLogin.cs" />
     <Compile Include="Rpc\BaseRpc.cs" />
     <Compile Include="Rpc\Download.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Rpc\Map.cs" />
     <Compile Include="Rpc\Misc.cs" />
     <Compile Include="Rpc\Player.cs" />
+    <None Include="app.config" />
     <Compile Include="Client.cs" />
     <Compile Include="Extensions\HttpClientExtensions.cs" />
     <Compile Include="Helpers\RandomHelper.cs" />
@@ -118,7 +120,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

@@ -33,7 +33,25 @@ namespace PokemonGo.RocketAPI.Helpers
                 StatusCode = 2, //1
 
                 RequestId = 1469378659230941192, //3
-                Requests = {customRequests}, //4
+                Requests = { customRequests }, //4
+
+                //Unknown6 = , //6
+                Latitude = _latitude, //7
+                Longitude = _longitude, //8
+                Altitude = _altitude, //9
+                AuthTicket = _authTicket, //11
+                Unknown12 = 989 //12
+            };
+        }
+
+        public RequestEnvelope GetInitialRequestEnvelope(params Request[] customRequests)
+        {
+            return new RequestEnvelope
+            {
+                StatusCode = 2, //1
+
+                RequestId = 1469378659230941192, //3
+                Requests = { customRequests }, //4
 
                 //Unknown6 = , //6
                 Latitude = _latitude, //7
@@ -48,7 +66,6 @@ namespace PokemonGo.RocketAPI.Helpers
                         Unknown2 = 14
                     }
                 }, //10
-                AuthTicket = _authTicket, //11
                 Unknown12 = 989 //12
             };
         }
