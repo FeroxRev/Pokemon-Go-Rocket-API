@@ -3,6 +3,7 @@
     public enum AuthType
     {
         Google,
-        Ptc
+        Ptc,
+        GoogleDevice
     }
 }

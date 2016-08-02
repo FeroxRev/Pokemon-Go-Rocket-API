@@ -99,6 +99,7 @@
     <Compile Include="Helpers\S2Helper.cs" />
     <Compile Include="Helpers\Utils.cs" />
     <Compile Include="ISettings.cs" />
+    <Compile Include="Login\GoogleDeviceLogin.cs" />
     <Compile Include="Login\GoogleLogin.cs" />
     <Compile Include="Login\ILoginType.cs" />
     <Compile Include="Login\PtcLogin.cs" />
