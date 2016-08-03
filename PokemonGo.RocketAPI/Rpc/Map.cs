@@ -18,7 +18,7 @@ namespace PokemonGo.RocketAPI.Rpc
         {
         }
 
-        public async Task<Tuple<GetMapObjectsResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse>> GetMapObjects()
+        public async Task<Tuple<GetMapObjectsResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse>> GetMapObjects(bool includeInventory)
         {
             #region Messages
 
@@ -30,10 +30,8 @@ namespace PokemonGo.RocketAPI.Rpc
                 Longitude = _client.CurrentLongitude
             };
             var getHatchedEggsMessage = new GetHatchedEggsMessage();
-            var getInventoryMessage = new GetInventoryMessage
-            {
-                LastTimestampMs = DateTime.UtcNow.ToUnixTime()
-            };
+            var getInventoryMessage = new GetInventoryMessage();
+            if (!includeInventory) getInventoryMessage.LastTimestampMs = DateTime.UtcNow.ToUnixTime();
             var checkAwardedBadgesMessage = new CheckAwardedBadgesMessage();
             var downloadSettingsMessage = new DownloadSettingsMessage
             {
