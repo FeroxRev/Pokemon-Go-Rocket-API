@@ -1,86 +1,51 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using DankMemes.GPSOAuthSharp;
+using PokemonGo.RocketAPI.Exceptions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
-using PokemonGo.RocketAPI.Helpers;
 
 namespace PokemonGo.RocketAPI.Login
 {
-    public static class GoogleLogin
+    public class GoogleLogin : ILoginType
     {
-        private const string OauthTokenEndpoint = "https://www.googleapis.com/oauth2/v4/token";
-        private const string OauthEndpoint = "https://accounts.google.com/o/oauth2/device/code";
-        private const string ClientId = "848232511240-7so421jotr2609rmqakceuu1luuq0ptb.apps.googleusercontent.com";// "848232511240-73ri3t7plvk96pj4f85uj8otdat2alem.apps.googleusercontent.com";
+        private readonly string password;
+        private readonly string email;
 
-        private const string ClientSecret = "NCjF1TLi2CcY6t5mt0ZveuL7";
-
-
-        public static async Task<TokenResponseModel> GetAccessToken(DeviceCodeModel deviceCode)
+        public GoogleLogin(string email, string password)
         {
-            int count = 0;
-
-            //Poll until user submitted code..
-            TokenResponseModel tokenResponse;
-            do
-            {
-                await Task.Delay(2000);
-                tokenResponse = await PollSubmittedToken(deviceCode.device_code);
-                count++;
-            } while (tokenResponse.access_token == null || tokenResponse.refresh_token == null && count < 100);
-
-            return tokenResponse;
+            this.email = email;
+            this.password = password;
         }
 
-        public static async Task<DeviceCodeModel> GetDeviceCode()
+#pragma warning disable 1998
+        public async Task<string> GetAccessToken()
+#pragma warning restore 1998
         {
-            var deviceCode = await HttpClientHelper.PostFormEncodedAsync<DeviceCodeModel>(OauthEndpoint,
-                new KeyValuePair<string, string>("client_id", ClientId),
-                new KeyValuePair<string, string>("scope", "openid email https://www.googleapis.com/auth/userinfo.email"));
-           return deviceCode;
-        }
+            var client = new GPSOAuthClient(email, password);
+            var response = client.PerformMasterLogin();
 
-        private static async Task<TokenResponseModel> PollSubmittedToken(string deviceCode)
-        {
-            return await HttpClientHelper.PostFormEncodedAsync<TokenResponseModel>(OauthTokenEndpoint,
-                new KeyValuePair<string, string>("client_id", ClientId),
-                new KeyValuePair<string, string>("client_secret", ClientSecret),
-                new KeyValuePair<string, string>("code", deviceCode),
-                new KeyValuePair<string, string>("grant_type", "http://oauth.net/grant_type/device/1.0"),
-                new KeyValuePair<string, string>("scope", "openid email https://www.googleapis.com/auth/userinfo.email"));
-        }
+            if (response.ContainsKey("Error"))
+                throw new GoogleException(response["Error"]);
 
-        public static async Task<TokenResponseModel> GetAccessToken(string refreshToken)
-        {
-            return await HttpClientHelper.PostFormEncodedAsync<TokenResponseModel>(OauthTokenEndpoint,
-                new KeyValuePair<string, string>("access_type", "offline"),
-                new KeyValuePair<string, string>("client_id", ClientId),
-                new KeyValuePair<string, string>("client_secret", ClientSecret),
-                new KeyValuePair<string, string>("refresh_token", refreshToken),
-                new KeyValuePair<string, string>("grant_type", "refresh_token"),
-                new KeyValuePair<string, string>("scope", "openid email https://www.googleapis.com/auth/userinfo.email"));
-        }
+            //Todo: captcha/2fa implementation
 
-        internal class ErrorResponseModel
-        {
-            public string error { get; set; }
-            public string error_description { get; set; }
-        }
+            if (!response.ContainsKey("Auth"))
+                throw new GoogleOfflineException();
 
-        public class TokenResponseModel
-        {
-            public string access_token { get; set; }
-            public string token_type { get; set; }
-            public int expires_in { get; set; }
-            public string refresh_token { get; set; }
-            public string id_token { get; set; }
-        }
+            var oauthResponse = client.PerformOAuth(response["Token"],
+                "audience:server:client_id:848232511240-7so421jotr2609rmqakceuu1luuq0ptb.apps.googleusercontent.com",
+                "com.nianticlabs.pokemongo",
+                "321187995bc7cdc2b5fc91b11a96e2baa8602c62");
 
-        public class DeviceCodeModel
-        {
-            public string verification_url { get; set; }
-            public int expires_in { get; set; }
-            public int interval { get; set; }
-            public string device_code { get; set; }
-            public string user_code { get; set; }
+            if (!oauthResponse.ContainsKey("Auth"))
+                throw new GoogleOfflineException();
+
+            return oauthResponse["Auth"];
         }
     }
 }

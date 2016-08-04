@@ -29,6 +29,7 @@ namespace PokemonGo.RocketAPI
         public Rpc.Encounter Encounter;
         public Rpc.Misc Misc;
 
+        public IApiFailureStrategy ApiFailure { get; set; }
         public ISettings Settings { get; }
         public string AuthToken { get; set; }
 
@@ -36,15 +37,16 @@ namespace PokemonGo.RocketAPI
         public double CurrentLongitude { get; internal set; }
         public double CurrentAltitude { get; internal set; }
 
-        public AuthType AuthType { get; set; } = AuthType.Google;
+        public AuthType AuthType => Settings.AuthType;
 
         internal readonly PokemonHttpClient PokemonHttpClient = new PokemonHttpClient();
         internal string ApiUrl { get; set; }
         internal AuthTicket AuthTicket { get; set; }
 
-        public Client(ISettings settings)
+        public Client(ISettings settings, IApiFailureStrategy apiFailureStrategy)
         {
             Settings = settings;
+            ApiFailure = apiFailureStrategy;
 
             Login = new Rpc.Login(this);
             Player = new Rpc.Player(this);
