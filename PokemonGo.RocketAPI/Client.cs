@@ -16,6 +16,7 @@ using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Responses;
 
+
 namespace PokemonGo.RocketAPI
 {
     public class Client
