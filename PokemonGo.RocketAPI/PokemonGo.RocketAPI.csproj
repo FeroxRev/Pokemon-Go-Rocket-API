@@ -39,7 +39,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="GPSOAuthSharp, Version=0.0.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GPSOAuthSharp.0.0.5\lib\GPSOAuthSharp.dll</HintPath>
+      <HintPath>packages\GPSOAuthSharp.0.0.5\lib\GPSOAuthSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -55,7 +55,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="POGOProtos, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\POGOProtos.1.5.0\lib\net45\POGOProtos.dll</HintPath>
+      <HintPath>packages\POGOProtos.1.5.0\lib\net45\POGOProtos.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="S2Geometry, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -65,6 +65,18 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.HashFunction.Core, Version=1.8.2.2, Culture=neutral, PublicKeyToken=80c9288e394c1322, processorArchitecture=MSIL">
+      <HintPath>packages\System.Data.HashFunction.Core.1.8.2.2\lib\net45\System.Data.HashFunction.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.HashFunction.Interfaces, Version=1.0.0.2, Culture=neutral, PublicKeyToken=80c9288e394c1322, processorArchitecture=MSIL">
+      <HintPath>packages\System.Data.HashFunction.Interfaces.1.0.0.2\lib\net45\System.Data.HashFunction.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.HashFunction.xxHash, Version=1.8.2.2, Culture=neutral, PublicKeyToken=80c9288e394c1322, processorArchitecture=MSIL">
+      <HintPath>packages\System.Data.HashFunction.xxHash.1.8.2.2\lib\net45\System.Data.HashFunction.xxHash.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>$(SolutionDir)\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
@@ -111,6 +123,8 @@
     <Compile Include="Rpc\Map.cs" />
     <Compile Include="Rpc\Misc.cs" />
     <Compile Include="Rpc\Player.cs" />
+    <Compile Include="Signatures\GenerateSignature.cs" />
+    <Compile Include="Signatures\POGOProtosSignature.cs" />
     <None Include="app.config" />
     <Compile Include="Client.cs" />
     <Compile Include="Extensions\HttpClientExtensions.cs" />
