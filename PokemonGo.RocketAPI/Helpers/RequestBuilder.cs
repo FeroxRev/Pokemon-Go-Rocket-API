@@ -3,6 +3,7 @@ using PokemonGo.RocketAPI.Enums;
 using POGOProtos.Networking.Envelopes;
 using POGOProtos.Networking.Requests;
 using static POGOProtos.Networking.Envelopes.RequestEnvelope.Types;
+using PokemonGo.RocketAPI.Signatures;
 
 namespace PokemonGo.RocketAPI.Helpers
 {
@@ -14,6 +15,7 @@ namespace PokemonGo.RocketAPI.Helpers
         private readonly double _longitude;
         private readonly double _altitude;
         private readonly AuthTicket _authTicket;
+        private readonly GenerateSignature _gensign;
 
         public RequestBuilder(string authToken, AuthType authType, double latitude, double longitude, double altitude,
             AuthTicket authTicket = null)
@@ -24,11 +26,12 @@ namespace PokemonGo.RocketAPI.Helpers
             _longitude = longitude;
             _altitude = altitude;
             _authTicket = authTicket;
+            _gensign = new GenerateSignature();
         }
 
         public RequestEnvelope GetRequestEnvelope(params Request[] customRequests)
         {
-            return new RequestEnvelope
+            var req = new RequestEnvelope
             {
                 StatusCode = 2, //1
 
@@ -42,11 +45,13 @@ namespace PokemonGo.RocketAPI.Helpers
                 AuthTicket = _authTicket, //11
                 Unknown12 = 989 //12
             };
+
+            return _gensign.generateUnknown6(req);
         }
 
         public RequestEnvelope GetInitialRequestEnvelope(params Request[] customRequests)
         {
-            return new RequestEnvelope
+            var req = new RequestEnvelope
             {
                 StatusCode = 2, //1
 
@@ -68,6 +73,8 @@ namespace PokemonGo.RocketAPI.Helpers
                 }, //10
                 Unknown12 = 989 //12
             };
+
+            return _gensign.generateUnknown6(req);
         }
 
         public RequestEnvelope GetRequestEnvelope(RequestType type, IMessage message)
