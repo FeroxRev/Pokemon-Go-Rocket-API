@@ -52,12 +52,12 @@ namespace PokemonGo.RocketAPI.Rpc
             var getHatchedEggsMessage = new GetHatchedEggsMessage();
             var getInventoryMessage = new GetInventoryMessage
             {
-                LastTimestampMs = DateTime.UtcNow.ToUnixTime()
+                //LastTimestampMs = DateTime.UtcNow.ToUnixTime()
             };
             var checkAwardedBadgesMessage = new CheckAwardedBadgesMessage();
             var downloadSettingsMessage = new DownloadSettingsMessage
             {
-                Hash = "05daf51635c82611d1aac95c0b051d3ec088a930"
+                Hash = "b1f2bf509a025b7cd76e1c484e2a24411c50f061"
             };
 
             #endregion
@@ -96,6 +96,8 @@ namespace PokemonGo.RocketAPI.Rpc
 
             _client.AuthTicket = serverResponse.AuthTicket;
             _client.ApiUrl = serverResponse.ApiUrl;
+
+            var resp = await PostProtoPayload<Request, POGOProtos.Networking.Responses.GetPlayerResponse>(RequestType.GetPlayer, new GetPlayerMessage());
         }
 
     }
