@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using xxHashSharp;
+using System.Data.HashFunction;
+using System.Linq;
 
 namespace PokemonGo.RocketAPI.Helpers
 {
@@ -13,32 +13,36 @@ namespace PokemonGo.RocketAPI.Helpers
             return BitConverter.ToUInt64(bytes, 0);
         }
 
-        public static uint GenerateLocation1(string authTicket, double lat, double lng, double alt)
+        public static uint GenerateLocation1(byte[] authTicket, double lat, double lng, double alt)
         {
-            uint firstHash = xxHash.CalculateHash(Encoding.ASCII.GetBytes(authTicket), -1, 0x1B845238);
+            var seed = BitConverter.ToUInt32(new xxHash(32, 0x1B845238).ComputeHash(authTicket), 0);
+            var xxh32 = new xxHash(32, seed);
 
             var locationBytes = new List<byte>();
-            locationBytes.AddRange(BitConverter.GetBytes(lat));
-            locationBytes.AddRange(BitConverter.GetBytes(lng));
-            locationBytes.AddRange(BitConverter.GetBytes(alt));
+            locationBytes.AddRange(BitConverter.GetBytes(lat).Reverse());
+            locationBytes.AddRange(BitConverter.GetBytes(lng).Reverse());
+            locationBytes.AddRange(BitConverter.GetBytes(alt).Reverse());
 
-            return xxHash.CalculateHash(locationBytes.ToArray(), locationBytes.Count, firstHash);
+            return BitConverter.ToUInt32(xxh32.ComputeHash(locationBytes.ToArray()), 0);
         }
 
         public static uint GenerateLocation2(double lat, double lng, double alt)
         {
-            var locationBytes = new List<byte>();
-            locationBytes.AddRange(BitConverter.GetBytes(lat));
-            locationBytes.AddRange(BitConverter.GetBytes(lng));
-            locationBytes.AddRange(BitConverter.GetBytes(alt));
+            var xxh32 = new xxHash(32, 0x1B845238);
 
-            return xxHash.CalculateHash(locationBytes.ToArray(), locationBytes.Count, 0x1B845238);
+            var locationBytes = new List<byte>();
+            locationBytes.AddRange(BitConverter.GetBytes(lat).Reverse());
+            locationBytes.AddRange(BitConverter.GetBytes(lng).Reverse());
+            locationBytes.AddRange(BitConverter.GetBytes(alt).Reverse());
+
+            return BitConverter.ToUInt32(xxh32.ComputeHash(locationBytes.ToArray()), 0);
         }
 
-        public static uint GenerateRequestHash(string authTicket, string request)
+        public static ulong GenerateRequestHash(byte[] authTicket, byte[] request)
         {
-            uint firstHash = xxHash.CalculateHash(Encoding.ASCII.GetBytes(authTicket), -1, 0x1B845238);
-            return xxHash.CalculateHash(Encoding.ASCII.GetBytes(request), -1, firstHash);
+            var seed = BitConverter.ToUInt64(new xxHash(64, 0x1B845238).ComputeHash(authTicket), 0);
+            var xxh64 = new xxHash(64, seed);
+            return BitConverter.ToUInt64(xxh64.ComputeHash(request), 0);
         }
     }
 }

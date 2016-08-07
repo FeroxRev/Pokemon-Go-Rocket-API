@@ -18,7 +18,7 @@ namespace PokemonGo.RocketAPI.Helpers
         private readonly double _longitude;
         private readonly double _altitude;
         private readonly AuthTicket _authTicket;
-        private readonly DateTime _startTime = DateTime.Now;
+        private readonly DateTime _startTime = DateTime.UtcNow;
 
         public RequestBuilder(string authToken, AuthType authType, double latitude, double longitude, double altitude,
             AuthTicket authTicket = null)
@@ -35,27 +35,27 @@ namespace PokemonGo.RocketAPI.Helpers
         {
             var rnd32 = new byte[32];
             var rnd = new Random();
-            string ticketSerialized = requestEnvelope.AuthTicket.ToString();
-
             rnd.NextBytes(rnd32);
+
+            var ticketBytes = requestEnvelope.AuthInfo.ToByteArray();
 
             var sig = new Signature()
             {
                 LocationHash1 =
-                    Utils.GenerateLocation1(ticketSerialized, requestEnvelope.Latitude, requestEnvelope.Longitude,
+                    Utils.GenerateLocation1(ticketBytes, requestEnvelope.Latitude, requestEnvelope.Longitude,
                         requestEnvelope.Altitude),
                 LocationHash2 =
                     Utils.GenerateLocation2(requestEnvelope.Latitude, requestEnvelope.Longitude,
                         requestEnvelope.Altitude),
                 Unk22 = ByteString.CopyFrom(rnd32),
-                Timestamp = (ulong) DateTime.Now.ToUnixTime(),
-                TimestampSinceStart = (ulong)(DateTime.Now.ToUnixTime() - _startTime.ToUnixTime())
+                Timestamp = (ulong) DateTime.UtcNow.ToUnixTime(),
+                TimestampSinceStart = (ulong)(DateTime.UtcNow.ToUnixTime() - _startTime.ToUnixTime())
             };
 
             foreach (var request in requestEnvelope.Requests)
             {
                 sig.RequestHash.Add(
-                    Utils.GenerateRequestHash(ticketSerialized, request.ToString())
+                    Utils.GenerateRequestHash(ticketBytes, request.ToByteArray())
                 );
             }
 
@@ -64,7 +64,7 @@ namespace PokemonGo.RocketAPI.Helpers
                 RequestType = 6,
                 Unknown2 = new Unknown6.Types.Unknown2()
                 {
-                    Unknown1 = ByteString.CopyFrom(Crypt.Encrypt(Encoding.ASCII.GetBytes(sig.ToString())))
+                    Unknown1 = ByteString.CopyFrom(Crypt.Encrypt(sig.ToByteArray()))
                 }
             });
 
