@@ -8,22 +8,13 @@ namespace PokemonGo.RocketAPI.Helpers
 {
     public class RequestBuilder
     {
-        private readonly string _authToken;
-        private readonly AuthType _authType;
-        private readonly double _latitude;
-        private readonly double _longitude;
-        private readonly double _altitude;
-        private readonly AuthTicket _authTicket;
+        private readonly Client _client;
+        private ulong _nextRequestId;
 
-        public RequestBuilder(string authToken, AuthType authType, double latitude, double longitude, double altitude,
-            AuthTicket authTicket = null)
+        public RequestBuilder(Client client)
         {
-            _authToken = authToken;
-            _authType = authType;
-            _latitude = latitude;
-            _longitude = longitude;
-            _altitude = altitude;
-            _authTicket = authTicket;
+            _client = client;
+            _nextRequestId = 1469378659230941192;
         }
 
         public RequestEnvelope GetRequestEnvelope(params Request[] customRequests)
@@ -32,14 +23,14 @@ namespace PokemonGo.RocketAPI.Helpers
             {
                 StatusCode = 2, //1
 
-                RequestId = 1469378659230941192, //3
+                RequestId = _nextRequestId++, //3
                 Requests = { customRequests }, //4
 
                 //Unknown6 = , //6
-                Latitude = _latitude, //7
-                Longitude = _longitude, //8
-                Altitude = _altitude, //9
-                AuthTicket = _authTicket, //11
+                Latitude = _client.CurrentLatitude, //7
+                Longitude = _client.CurrentLongitude, //8
+                Altitude = _client.CurrentAltitude, //9
+                AuthTicket = _client.AuthTicket, //11
                 Unknown12 = 989 //12
             };
         }
@@ -50,19 +41,19 @@ namespace PokemonGo.RocketAPI.Helpers
             {
                 StatusCode = 2, //1
 
-                RequestId = 1469378659230941192, //3
+                RequestId = _nextRequestId++, //3
                 Requests = { customRequests }, //4
 
                 //Unknown6 = , //6
-                Latitude = _latitude, //7
-                Longitude = _longitude, //8
-                Altitude = _altitude, //9
+                Latitude = _client.CurrentLatitude, //7
+                Longitude = _client.CurrentLongitude, //8
+                Altitude = _client.CurrentAltitude, //9
                 AuthInfo = new AuthInfo
                 {
-                    Provider = _authType == AuthType.Google ? "google" : "ptc",
+                    Provider = _client.AuthType == AuthType.Google ? "google" : "ptc",
                     Token = new AuthInfo.Types.JWT
                     {
-                        Contents = _authToken,
+                        Contents = _client.AuthToken,
                         Unknown2 = 14
                     }
                 }, //10

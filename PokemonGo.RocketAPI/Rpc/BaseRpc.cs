@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Google.Protobuf;
-using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Extensions;
-using PokemonGo.RocketAPI.Helpers;
 using POGOProtos.Networking.Envelopes;
 using POGOProtos.Networking.Requests;
 
@@ -15,7 +10,6 @@ namespace PokemonGo.RocketAPI.Rpc
     public class BaseRpc
     {
         protected Client _client;
-        protected RequestBuilder RequestBuilder => new RequestBuilder(_client.AuthToken, _client.AuthType, _client.CurrentLatitude, _client.CurrentLongitude, _client.CurrentAltitude, _client.AuthTicket);
         protected string ApiUrl => $"https://{_client.ApiUrl}/rpc";
         protected BaseRpc(Client client)
         {
@@ -25,7 +19,7 @@ namespace PokemonGo.RocketAPI.Rpc
         protected async Task<TResponsePayload> PostProtoPayload<TRequest, TResponsePayload>(RequestType type, IMessage message) where TRequest : IMessage<TRequest>
             where TResponsePayload : IMessage<TResponsePayload>, new()
         {
-            var requestEnvelops = RequestBuilder.GetRequestEnvelope(type, message);
+            var requestEnvelops = _client.RequestBuilder.GetRequestEnvelope(type, message);
             return await _client.PokemonHttpClient.PostProtoPayload<TRequest, TResponsePayload>(ApiUrl, requestEnvelops, _client.ApiFailure);
         }
 

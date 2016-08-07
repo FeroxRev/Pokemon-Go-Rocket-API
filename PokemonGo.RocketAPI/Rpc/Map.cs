@@ -40,7 +40,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
             #endregion
 
-            var request = RequestBuilder.GetRequestEnvelope(
+            var request = _client.RequestBuilder.GetRequestEnvelope(
                 new Request
                 {
                     RequestType = RequestType.GetMapObjects,
