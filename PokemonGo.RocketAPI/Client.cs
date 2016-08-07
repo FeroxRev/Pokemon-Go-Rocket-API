@@ -28,6 +28,7 @@ namespace PokemonGo.RocketAPI
         public Rpc.Fort Fort;
         public Rpc.Encounter Encounter;
         public Rpc.Misc Misc;
+        public POGOProtos.Networking.Signature.Types.DeviceInfo DeviceInfo { get; }
 
         public IApiFailureStrategy ApiFailure { get; set; }
         public ISettings Settings { get; }
@@ -45,11 +46,12 @@ namespace PokemonGo.RocketAPI
 
         internal readonly RequestBuilder RequestBuilder;
 
-        public Client(ISettings settings, IApiFailureStrategy apiFailureStrategy)
+        public Client(ISettings settings, IApiFailureStrategy apiFailureStrategy, POGOProtos.Networking.Signature.Types.DeviceInfo deviceInfo)
         {
             Settings = settings;
             ApiFailure = apiFailureStrategy;
             RequestBuilder = new RequestBuilder(this);
+            DeviceInfo = deviceInfo;
 
             Login = new Rpc.Login(this);
             Player = new Rpc.Player(this);
