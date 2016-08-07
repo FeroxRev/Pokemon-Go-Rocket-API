@@ -4,7 +4,11 @@ Interface to Pokémon Go Client including pretty much every call
 
 **Read previous issues before opening a new one! Maybe your issue is already answered. Questions will be removed.
 
-Donate some bitcoin beers via: 1KRBmNN8y9hwaXGR7rCoJWmzJHfBp2ybRb
+### Feel free to donate some bitcoin-pennys via: 1PvcxDiVoBVtYcMp3HC2Ssv4KXdtbfRpfb
+
+### IMPORTANT
+I've added both, the 32bit and 64bit dll. Renamed the one you want to use to "encrypt.dll"!
+
 
 ----------
 ### Usage Example
