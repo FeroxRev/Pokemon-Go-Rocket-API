@@ -37,7 +37,7 @@ namespace PokemonGo.RocketAPI.Helpers
             var rnd = new Random();
             rnd.NextBytes(rnd32);
 
-            var ticketBytes = requestEnvelope.AuthInfo.ToByteArray();
+            var ticketBytes = requestEnvelope.AuthTicket.ToByteArray();
 
             var sig = new Signature()
             {
