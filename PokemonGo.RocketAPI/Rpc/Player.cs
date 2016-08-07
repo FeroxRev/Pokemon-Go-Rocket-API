@@ -30,14 +30,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 Longitude = _client.CurrentLongitude
             };
 
-            var updatePlayerLocationRequestEnvelope = RequestBuilder.GetRequestEnvelope(
-                new Request
-                {
-                    RequestType = RequestType.PlayerUpdate,
-                    RequestMessage = message.ToByteString()
-                });
-
-            return await PostProtoPayload<Request, PlayerUpdateResponse>(updatePlayerLocationRequestEnvelope);
+            return await PostProtoPayload<Request, PlayerUpdateResponse>(RequestType.PlayerUpdate, message);
         }
 
         internal void SetCoordinates(double lat, double lng, double altitude)
