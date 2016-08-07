@@ -1,4 +1,5 @@
-﻿using Google.Protobuf;
+﻿using System;
+using Google.Protobuf;
 using PokemonGo.RocketAPI.Enums;
 using POGOProtos.Networking.Envelopes;
 using POGOProtos.Networking.Requests;
@@ -14,7 +15,8 @@ namespace PokemonGo.RocketAPI.Helpers
         public RequestBuilder(Client client)
         {
             _client = client;
-            _nextRequestId = 1469378659230941192;
+            //_nextRequestId = 1469378659230941192;
+            _nextRequestId = Convert.ToUInt64((new Random()).NextDouble() * Math.Pow(10, 18));  //1469378659230941192;
         }
 
         public RequestEnvelope GetRequestEnvelope(params Request[] customRequests)
