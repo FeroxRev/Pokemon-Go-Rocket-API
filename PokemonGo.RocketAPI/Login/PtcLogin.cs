@@ -8,7 +8,7 @@ using System.Web;
 
 namespace PokemonGo.RocketAPI.Login
 {
-    class PtcLogin : ILoginType
+    public class PtcLogin : ILoginType
     {
         readonly string password;
         readonly string username;
