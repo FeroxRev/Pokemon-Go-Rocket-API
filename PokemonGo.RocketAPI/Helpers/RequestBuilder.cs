@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using PokemonGo.RocketAPI.Extensions;
 
 namespace PokemonGo.RocketAPI.Helpers
@@ -21,15 +22,16 @@ namespace PokemonGo.RocketAPI.Helpers
         private readonly double _altitude;
         private readonly AuthTicket _authTicket;
         static private readonly Stopwatch _internalWatch = new Stopwatch();
+        private readonly ISettings settings;
 
-        public RequestBuilder(string authToken, AuthType authType, double latitude, double longitude, double altitude,
-            AuthTicket authTicket = null)
+        public RequestBuilder(string authToken, AuthType authType, double latitude, double longitude, double altitude, ISettings settings, AuthTicket authTicket = null)
         {
             _authToken = authToken;
             _authType = authType;
             _latitude = latitude;
             _longitude = longitude;
             _altitude = altitude;
+            this.settings = settings;
             _authTicket = authTicket;
             if (!_internalWatch.IsRunning)
                 _internalWatch.Start();
@@ -42,39 +44,39 @@ namespace PokemonGo.RocketAPI.Helpers
             sig.Timestamp = (ulong)DateTime.UtcNow.ToUnixTime();
             sig.SensorInfo = new POGOProtos.Networking.Signature.Types.SensorInfo()
             {
-                AccelNormalizedZ = 9.8,
-                AccelNormalizedX = 0.02,
-                AccelNormalizedY = 0.3,
+                AccelNormalizedZ = GenRandom(9.8),
+                AccelNormalizedX = GenRandom(0.02),
+                AccelNormalizedY = GenRandom(0.3),
                 TimestampSnapshot = (ulong)_internalWatch.ElapsedMilliseconds - 230,
-                MagnetometerX = 0.012271042913198471,
-                MagnetometerY = -0.015570580959320068,
-                MagnetometerZ = 0.010850906372070313,
-                AngleNormalizedX = 17.950439453125,
-                AngleNormalizedY = -23.36273193359375,
-                AngleNormalizedZ = -48.8250732421875,
-                AccelRawX = -0.0120010357350111,
-                AccelRawY = -0.04214850440621376,
-                AccelRawZ = 0.94571763277053833,
-                GyroscopeRawX = 7.62939453125e-005,
-                GyroscopeRawY = -0.00054931640625,
-                GyroscopeRawZ = 0.0024566650390625,
+                MagnetometerX = GenRandom(012271042913198471),
+                MagnetometerY = GenRandom(-0.015570580959320068),
+                MagnetometerZ = GenRandom(0.010850906372070313),
+                AngleNormalizedX = GenRandom(17.950439453125),
+                AngleNormalizedY = GenRandom(-23.36273193359375),
+                AngleNormalizedZ = GenRandom(-48.8250732421875),
+                AccelRawX = GenRandom(-0.0120010357350111),
+                AccelRawY = GenRandom(-0.04214850440621376),
+                AccelRawZ = GenRandom(0.94571763277053833),
+                GyroscopeRawX = GenRandom(7.62939453125e-005),
+                GyroscopeRawY = GenRandom(-0.00054931640625),
+                GyroscopeRawZ = GenRandom(0.0024566650390625),
                 AccelerometerAxes = 3
             };
             sig.DeviceInfo = new POGOProtos.Networking.Signature.Types.DeviceInfo()
             {
-                DeviceId = "529e8aa6201f78b5",
-                AndroidBoardName = "msm8994", // might al
-                AndroidBootloader = "unknown",
-                DeviceBrand = "OnePlus",
-                DeviceModel = "OnePlus2", // might als
-                DeviceModelIdentifier = "ONE A2003_24_160604",
-                DeviceModelBoot = "qcom",
-                HardwareManufacturer = "OnePlus",
-                HardwareModel = "ONE A2003",
-                FirmwareBrand = "OnePlus2",
-                FirmwareTags = "dev-keys",
-                FirmwareType = "user",
-                FirmwareFingerprint = "OnePlus/OnePlus2/OnePlus2:6.0.1/MMB29M/1447840820:user/release-keys"
+                DeviceId = settings.DeviceId,
+                AndroidBoardName = settings.AndroidBoardName,
+                AndroidBootloader = settings.AndroidBootloader,
+                DeviceBrand = settings.DeviceBrand,
+                DeviceModel = settings.DeviceModel,
+                DeviceModelIdentifier = settings.DeviceModelIdentifier,
+                DeviceModelBoot = settings.DeviceModelBoot,
+                HardwareManufacturer = settings.HardwareManufacturer,
+                HardwareModel = settings.HardwareModel,
+                FirmwareBrand = settings.FirmwareBrand,
+                FirmwareTags = settings.FirmwareTags,
+                FirmwareType = settings.FirmwareType,
+                FirmwareFingerprint = settings.FirmwareFingerprint
             };
             sig.LocationFix.Add(new POGOProtos.Networking.Signature.Types.LocationFix()
             {
@@ -117,7 +119,6 @@ namespace PokemonGo.RocketAPI.Helpers
             val.Unknown2.Unknown1 = ByteString.CopyFrom(Encrypt(sig.ToByteArray()));
             return val;
         }
-        private int counterDumps = 0;
         private byte[] Encrypt(byte[] bytes)
         {
             var outputLength = 32 + bytes.Length + (256 - (bytes.Length % 256));
@@ -202,6 +203,17 @@ namespace PokemonGo.RocketAPI.Helpers
                 RequestMessage = message.ToByteString()
             });
 
+        }
+
+        private static readonly Random RandomDevice = new Random();
+
+        public static double GenRandom(double num)
+        {
+                var randomFactor = 0.3f;
+                var randomMin = (num * (1 - randomFactor));
+                var randomMax = (num * (1 + randomFactor));
+                var randomizedDelay = RandomDevice.NextDouble() * (randomMax - randomMin) + randomMin; ;
+                return randomizedDelay;;
         }
     }
 }
