@@ -1,20 +1,8 @@
-﻿using System;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Google.Protobuf;
+﻿using POGOProtos.Networking.Envelopes;
 using PokemonGo.RocketAPI.Enums;
-using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Extensions;
 using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.HttpClient;
-using PokemonGo.RocketAPI.Login;
-using POGOProtos.Inventory;
-using POGOProtos.Inventory.Item;
-using POGOProtos.Networking.Envelopes;
-using POGOProtos.Networking.Requests;
-using POGOProtos.Networking.Requests.Messages;
-using POGOProtos.Networking.Responses;
 
 namespace PokemonGo.RocketAPI
 {
@@ -30,7 +18,7 @@ namespace PokemonGo.RocketAPI
         public Rpc.Misc Misc;
         public POGOProtos.Networking.Signature.Types.DeviceInfo DeviceInfo { get; }
 
-        public IApiFailureStrategy ApiFailure { get; set; }
+        public IApiStrategy ApiFailure { get; set; }
         public ISettings Settings { get; }
         public string AuthToken { get; set; }
 
@@ -46,7 +34,7 @@ namespace PokemonGo.RocketAPI
 
         internal readonly RequestBuilder RequestBuilder;
 
-        public Client(ISettings settings, IApiFailureStrategy apiFailureStrategy, POGOProtos.Networking.Signature.Types.DeviceInfo deviceInfo)
+        public Client(ISettings settings, IApiStrategy apiFailureStrategy, POGOProtos.Networking.Signature.Types.DeviceInfo deviceInfo)
         {
             Settings = settings;
             ApiFailure = apiFailureStrategy;

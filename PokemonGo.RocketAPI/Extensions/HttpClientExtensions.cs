@@ -1,22 +1,23 @@
-﻿using System.Diagnostics;
+﻿using Google.Protobuf;
+using POGOProtos.Networking.Envelopes;
+using PokemonGo.RocketAPI.Exceptions;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Google.Protobuf;
-using PokemonGo.RocketAPI.Exceptions;
-using POGOProtos.Networking.Envelopes;
 
 namespace PokemonGo.RocketAPI.Extensions
 {
     using System;
-
+    using System.Collections.Generic;
     public enum ApiOperation
     {
         Retry,
         Abort
     }
 
-    public interface IApiFailureStrategy
+    public interface IApiStrategy
     {
+        Task HandleApiStart(RequestEnvelope request);
         Task<ApiOperation> HandleApiFailure(RequestEnvelope request, ResponseEnvelope response);
         void HandleApiSuccess(RequestEnvelope request, ResponseEnvelope response);
     }
@@ -25,9 +26,11 @@ namespace PokemonGo.RocketAPI.Extensions
     {
         public static async Task<IMessage[]> PostProtoPayload<TRequest>(this System.Net.Http.HttpClient client, 
             string url, RequestEnvelope requestEnvelope,
-            IApiFailureStrategy strategy,
+            IApiStrategy strategy,
             params Type[] responseTypes) where TRequest : IMessage<TRequest>
         {
+            await strategy.HandleApiStart(requestEnvelope);
+
             var result = new IMessage[responseTypes.Length];
             for (var i = 0; i < responseTypes.Length; i++)
             {
@@ -59,10 +62,10 @@ namespace PokemonGo.RocketAPI.Extensions
         }
 
         public static async Task<TResponsePayload> PostProtoPayload<TRequest, TResponsePayload>(this System.Net.Http.HttpClient client,
-            string url, RequestEnvelope requestEnvelope, IApiFailureStrategy strategy) where TRequest : IMessage<TRequest>
+            string url, RequestEnvelope requestEnvelope, IApiStrategy strategy) where TRequest : IMessage<TRequest>
             where TResponsePayload : IMessage<TResponsePayload>, new()
         {
-            Debug.WriteLine($"Requesting {typeof(TResponsePayload).Name}");
+            await strategy.HandleApiStart(requestEnvelope);
             var response = await PostProto<TRequest>(client, url, requestEnvelope);
 
             while (response.Returns.Count == 0)

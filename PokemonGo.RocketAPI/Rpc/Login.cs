@@ -11,10 +11,12 @@ using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Login;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
+using POGOProtos.Networking.Responses;
 
 namespace PokemonGo.RocketAPI.Rpc
 {
     public delegate void GoogleDeviceCodeDelegate(string code, string uri);
+
     public class Login : BaseRpc
     {
         //public event GoogleDeviceCodeDelegate GoogleDeviceCodeEvent;
@@ -38,13 +40,13 @@ namespace PokemonGo.RocketAPI.Rpc
             }
         }
 
-        public async Task DoLogin()
+        public async Task<Tuple<GetPlayerResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse>> DoLogin()
         {
             if (string.IsNullOrEmpty(_client.AuthToken)) _client.AuthToken = await login.GetAccessToken().ConfigureAwait(false);
-            await SetServer().ConfigureAwait(false);
+            return await SetServer();
         }
 
-        private async Task SetServer()
+        private async Task<Tuple<GetPlayerResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse>> SetServer()
         {
             #region Standard intial request messages in right Order
 
@@ -62,7 +64,24 @@ namespace PokemonGo.RocketAPI.Rpc
 
             #endregion
 
-            var serverRequest = _client.RequestBuilder.GetInitialRequestEnvelope(
+            var request = _client.RequestBuilder.GetInitialRequestEnvelope(
+                new Request
+                {
+                    RequestType = RequestType.GetPlayer,
+                    RequestMessage = getPlayerMessage.ToByteString()
+                });
+            var response = await PostProto<Request>(Resources.RpcUrl, request);
+
+            if (response.AuthTicket == null)
+            {
+                _client.AuthToken = null;
+                throw new AccessTokenExpiredException();
+            }
+
+            _client.AuthTicket = response.AuthTicket;
+            _client.ApiUrl = response.ApiUrl;
+
+            request = _client.RequestBuilder.GetRequestEnvelope(
                 new Request
                 {
                     RequestType = RequestType.GetPlayer,
@@ -86,18 +105,8 @@ namespace PokemonGo.RocketAPI.Rpc
                 });
 
 
-            var serverResponse = await PostProto<Request>(Resources.RpcUrl, serverRequest);
-
-            if (serverResponse.AuthTicket == null)
-            {
-                _client.AuthToken = null;
-                throw new AccessTokenExpiredException();
-            }
-
-            _client.AuthTicket = serverResponse.AuthTicket;
-            _client.ApiUrl = serverResponse.ApiUrl;
-
-            var resp = await PostProtoPayload<Request, POGOProtos.Networking.Responses.GetPlayerResponse>(RequestType.GetPlayer, new GetPlayerMessage());
+            var response2 = await PostProtoPayload<Request, GetPlayerResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse>(request);
+            return response2;
         }
 
     }
