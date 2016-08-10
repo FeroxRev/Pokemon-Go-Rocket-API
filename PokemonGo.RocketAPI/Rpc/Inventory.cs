@@ -63,11 +63,11 @@ namespace PokemonGo.RocketAPI.Rpc
             return await PostProtoPayload<Request, RecycleInventoryItemResponse>(RequestType.RecycleInventoryItem, message);
         }
 
-        public async Task<UseItemXpBoostResponse> UseItemXpBoost()
+        public async Task<UseItemXpBoostResponse> UseItemXpBoost(ItemId itemId)
         {
             var message = new UseItemXpBoostMessage()
             {
-                ItemId = ItemId.ItemLuckyEgg
+                ItemId = itemId
             };
             
             return await PostProtoPayload<Request, UseItemXpBoostResponse>(RequestType.UseItemXpBoost, message);
@@ -100,7 +100,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return await PostProtoPayload<Request, UseItemPotionResponse>(RequestType.UseItemPotion, message);
         }
 
-        public async Task<UseItemEggIncubatorResponse> UseItemRevive(ItemId itemId, ulong pokemonId)
+        public async Task<UseItemReviveResponse> UseItemRevive(ItemId itemId, ulong pokemonId)
         {
             var message = new UseItemReviveMessage()
             {
@@ -108,7 +108,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PokemonId = pokemonId
             };
 
-            return await PostProtoPayload<Request, UseItemEggIncubatorResponse>(RequestType.UseItemEggIncubator, message);
+            return await PostProtoPayload<Request, UseItemReviveResponse>(RequestType.UseItemEggIncubator, message);
         }
 
         public async Task<UseIncenseResponse> UseIncense(ItemId incenseType)

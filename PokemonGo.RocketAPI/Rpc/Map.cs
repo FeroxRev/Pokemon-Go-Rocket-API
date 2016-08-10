@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Google.Protobuf;
-using PokemonGo.RocketAPI.Extensions;
-using PokemonGo.RocketAPI.Helpers;
+﻿using Google.Protobuf;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Responses;
+using PokemonGo.RocketAPI.Extensions;
+using PokemonGo.RocketAPI.Helpers;
+using System;
+using System.Threading.Tasks;
 
 namespace PokemonGo.RocketAPI.Rpc
 {
@@ -18,7 +15,7 @@ namespace PokemonGo.RocketAPI.Rpc
         {
         }
 
-        public async Task<Tuple<GetMapObjectsResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse>> GetMapObjects()
+        public async Task<Tuple<GetMapObjectsResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse>> GetMapObjects(bool includeInventory)
         {
             #region Messages
 
@@ -30,10 +27,8 @@ namespace PokemonGo.RocketAPI.Rpc
                 Longitude = _client.CurrentLongitude
             };
             var getHatchedEggsMessage = new GetHatchedEggsMessage();
-            var getInventoryMessage = new GetInventoryMessage
-            {
-                LastTimestampMs = DateTime.UtcNow.ToUnixTime()
-            };
+            var getInventoryMessage = new GetInventoryMessage();
+            if (!includeInventory) getInventoryMessage.LastTimestampMs = DateTime.UtcNow.ToUnixTime();
             var checkAwardedBadgesMessage = new CheckAwardedBadgesMessage();
             var downloadSettingsMessage = new DownloadSettingsMessage
             {
@@ -42,7 +37,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
             #endregion
 
-            var request = RequestBuilder.GetRequestEnvelope(
+            var request = _client.RequestBuilder.GetRequestEnvelope(
                 new Request
                 {
                     RequestType = RequestType.GetMapObjects,
