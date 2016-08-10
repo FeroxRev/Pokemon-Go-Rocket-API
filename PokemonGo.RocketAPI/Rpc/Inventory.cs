@@ -63,11 +63,11 @@ namespace PokemonGo.RocketAPI.Rpc
             return await PostProtoPayload<Request, RecycleInventoryItemResponse>(RequestType.RecycleInventoryItem, message);
         }
 
-        public async Task<UseItemXpBoostResponse> UseItemXpBoost()
+        public async Task<UseItemXpBoostResponse> UseItemXpBoost(ItemId itemId)
         {
             var message = new UseItemXpBoostMessage()
             {
-                ItemId = ItemId.ItemLuckyEgg
+                ItemId = itemId
             };
             
             return await PostProtoPayload<Request, UseItemXpBoostResponse>(RequestType.UseItemXpBoost, message);
