@@ -37,12 +37,14 @@ namespace PokemonGo.RocketAPI.Helpers
             var rnd = new Random();
             rnd.NextBytes(rnd32);
 
-            var ticketBytes = requestEnvelope.AuthTicket.ToByteArray();
+            byte[] authSeed = requestEnvelope.AuthTicket != null ? 
+                requestEnvelope.AuthTicket.ToByteArray() : 
+                requestEnvelope.AuthInfo.ToByteArray();
 
             var sig = new Signature()
             {
                 LocationHash1 =
-                    Utils.GenerateLocation1(ticketBytes, requestEnvelope.Latitude, requestEnvelope.Longitude,
+                    Utils.GenerateLocation1(authSeed, requestEnvelope.Latitude, requestEnvelope.Longitude,
                         requestEnvelope.Altitude),
                 LocationHash2 =
                     Utils.GenerateLocation2(requestEnvelope.Latitude, requestEnvelope.Longitude,
@@ -55,7 +57,7 @@ namespace PokemonGo.RocketAPI.Helpers
             foreach (var request in requestEnvelope.Requests)
             {
                 sig.RequestHash.Add(
-                    Utils.GenerateRequestHash(ticketBytes, request.ToByteArray())
+                    Utils.GenerateRequestHash(authSeed, request.ToByteArray())
                 );
             }
 
