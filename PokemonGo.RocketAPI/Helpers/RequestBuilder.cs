@@ -93,7 +93,7 @@ namespace PokemonGo.RocketAPI.Helpers
 
         public RequestEnvelope GetInitialRequestEnvelope(params Request[] customRequests)
         {
-            return new RequestEnvelope
+            return SetRequestEnvelopeUnknown6(new RequestEnvelope
             {
                 StatusCode = 2, //1
 
@@ -114,7 +114,7 @@ namespace PokemonGo.RocketAPI.Helpers
                     }
                 }, //10
                 Unknown12 = 989 //12
-            };
+            });
         }
 
         public RequestEnvelope GetRequestEnvelope(RequestType type, IMessage message)
